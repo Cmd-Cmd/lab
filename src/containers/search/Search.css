@@ -1,0 +1,19 @@
+#Search {
+  background-color: #eee;
+}
+#Search>.am-container {
+  background-color: white;
+}
+#Search>.am-container>.am-breadcrumb {
+  margin: 0 -18px;
+  background-color: #eee;
+}
+#searchInput {
+  background-color: white;
+}
+#searchInput .am-form-group {
+  margin-bottom: 0;
+}
+#Search .am-pagination>li {
+  cursor: pointer;
+}

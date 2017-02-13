@@ -1,0 +1,9 @@
+#Topbar .logo {
+  height: 90px;
+  line-height: 90px;
+}
+@media only screen and (max-width: 641px){
+  #Topbar .logo {
+    height: 50px;
+  }
+}

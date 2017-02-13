@@ -1,0 +1,19 @@
+#Carousel .am-viewport {
+  height: 400px;
+  overflow: hidden;
+}
+#Carousel .am-slides {
+  height: 100%;
+  width: 100%;
+}
+#Carousel .am-slides>li {
+  height: 100%;
+}
+#Carousel .am-slider-desc a {
+  color: white;
+}
+@media only screen and (max-width: 641px){
+  #Carousel .am-viewport {
+    height: 200px;
+  }
+}

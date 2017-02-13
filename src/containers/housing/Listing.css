@@ -1,0 +1,20 @@
+#Listing .am-titlebar {
+  background-color: white;
+  margin: 0;
+}
+#Listing .titlebar-container {
+  padding-top: 10px;
+}
+#Listing .am-titlebar-title>span {
+  cursor: pointer;
+  user-select: none;
+}
+#Listing .am-list .am-list-item-hd {
+  color: #331919;
+}
+#Listing .am-list .am-list-item-hd:hover {
+  color: #095f8a;
+}
+#Listing .am-pagination>li {
+  cursor: pointer;
+}

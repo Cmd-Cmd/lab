@@ -1,0 +1,53 @@
+.listView .title {
+  position: relative;
+  margin: 0rem;
+  padding-left: 0.5rem;
+  padding-bottom: 1.6rem;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  background-color: #eee;
+  color: #331919;
+}
+.listView .title.a {
+  border-bottom: 2px solid #0e90d2;
+}
+.listView .title.b {
+  border-bottom: 2px solid rgb(102, 218, 32);
+}
+.listView .title .subTitle {
+  position: absolute;
+  top: 0rem;
+  left: 4rem;
+  letter-spacing: normal;
+  font-size: 3rem;
+  color: #333;
+  opacity: 0.2;
+}
+.listView .title:before {
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  left: 1.2rem;
+  content: "";
+  z-index: 1;
+  border: 6px transparent solid;
+}
+.listView .title.a:before {
+  border-bottom-color: #0e90d2;
+}
+.listView .title.b:before {
+  border-bottom-color: rgb(102, 218, 32);
+}
+.listView .title:hover .subTitle {
+  text-shadow: 1px 1px 2px #003;
+  opacity: 0.4;
+}
+.listView .am-list {
+  margin-top: 0;
+  margin-bottom: 3rem;
+}
+.listView .am-list>li>a {
+  padding: 5px;
+  color: #331919;
+}
