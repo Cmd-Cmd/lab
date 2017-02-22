@@ -6,10 +6,16 @@ import Footer from './footer';
 
 class App extends Component {
   render() {
+    let height = parseInt(document.documentElement.clientHeight, 10) - 255;
+    if (parseInt(document.documentElement.clientHeight, 10) <= 640) {
+      height += 90;
+    }
     return (
       <div>
         <Header></Header>
+        <div style={{minHeight: height + 'px'}}>
           {this.props.children}
+        </div>
         <Footer></Footer>
         <GoTop theme='fixed' autoHide></GoTop>
       </div>

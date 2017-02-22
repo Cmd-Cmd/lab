@@ -50,4 +50,8 @@
 .listView .am-list>li>a {
   padding: 5px;
   color: #331919;
+  transition: background-color 0.3s;
+}
+.listView .am-list>li>a:hover {
+  background-color: #eef;
 }

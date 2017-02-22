@@ -73,7 +73,7 @@ class Listing extends Component {
             this.props.data.map((ele, inx) => {
               const temp = this.props.english.toLowerCase();
               return (
-                <ScrollSpy key={inx} repeat>
+                <ScrollSpy key={inx}>
                 <li className='am-list-item-dated'>
                     <Link to={`/${temp}/${ele.id}`}
                             className='am-list-item-hd'>{ele.title}</Link>

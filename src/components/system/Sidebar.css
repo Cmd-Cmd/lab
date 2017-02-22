@@ -1,0 +1,45 @@
+#Sidebar {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#Sidebar>li {
+  margin-bottom: 5px;
+}
+#Sidebar>li>span {
+  cursor: pointer;
+  display: block;
+  border-right: 5px solid #eee;
+  font-weight: bold;
+  padding: 3px 0;
+  padding-left: 10px;
+  color: #555;
+  transition: all 0.5s;
+}
+#Sidebar>li>span>span {
+  color: #ddd;
+}
+#Sidebar>li>span:hover, #Sidebar>li.active>span {
+  border-right-color: #00d8ff;
+}
+#Sidebar>li>ul {
+  display: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 5px;
+  list-style: none;
+}
+#Sidebar>li.active>ul {
+  display: block;
+}
+#Sidebar a {
+  display: block;
+  color: #777;
+  padding: 3px 30px;
+  padding-right: 0;
+  transition: all 0.5s;
+}
+#Sidebar a:hover {
+  background-color: #f3f3f3;
+  color: #333;
+}

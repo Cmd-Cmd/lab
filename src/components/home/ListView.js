@@ -33,7 +33,7 @@ class ListView extends Component {
         {this.props.data.map((ele, inx) => {
           return (
           <ListItem key={inx} className='am-padding-0'>
-            <ScrollSpy repeat>
+            <ScrollSpy>
               <Link to={this.props.type +  ele.id} className='am-text-truncate'>
               {ele.title}
               </Link>

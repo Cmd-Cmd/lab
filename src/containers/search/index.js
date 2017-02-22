@@ -13,7 +13,6 @@ class Search extends Component {
   }
 
   render() {
-    let height = parseInt(document.documentElement.clientHeight, 10);
     let pageArr = [];
     let temp = (this.props.pageNow - 2 < 0) ? 0 : this.props.pageNow - 2;
     for (let i = temp; i < temp + 4 && i <= this.props.pageAll; i++) {
@@ -24,7 +23,7 @@ class Search extends Component {
     }
     return (
       <div id='Search'>
-        <Container style={{minHeight: height - 255 + 'px'}}>
+        <Container>
           <Breadcrumb>
             <Breadcrumb.Item>
               <IndexLink to='/'>首页</IndexLink>
@@ -49,7 +48,7 @@ class Search extends Component {
             {
               this.props.data.map((ele, inx) => {
                 return (
-                  <ScrollSpy key={inx} repeat>
+                  <ScrollSpy key={inx}>
                     <li>
                         <Link to={`/${ele.type}/${ele.id}`}
                               className='am-list-item-hd'>
@@ -88,8 +87,9 @@ class Search extends Component {
             <Pagination.Item disabled={(this.props.pageNow ===
                                         this.props.pageAll)}>
               <Icon icon='angle-double-right'
-                    onClick={(e) => this.props.changePage(this.props.pageNow + 1)}
-                    ></Icon>
+                    onClick={(e) => {
+                      this.props.changePage(this.props.pageNow + 1);
+                    }}></Icon>
             </Pagination.Item>
           </Pagination>
         </Container>

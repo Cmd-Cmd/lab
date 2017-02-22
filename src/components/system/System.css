@@ -1,0 +1,24 @@
+#System-menu {
+  width: 260px;
+  float: left;
+  padding-right: 10px;
+  padding-top: 10px;
+  background-color: white;
+  border-right: 3px solid #eee;
+  height: 100%;
+}
+#System-content {
+  padding-left: 270px;
+}
+@media only screen and (max-width: 640px) {
+  #System-menu {
+    width: 100%;
+    float: none;
+    padding: 0;
+    background-color: #eff;
+    border: 0;
+  }
+  #System-content {
+    padding-left: 0;
+  }
+}

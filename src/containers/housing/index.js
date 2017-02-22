@@ -11,10 +11,9 @@ class Housing extends Component {
   }
 
   render() {
-    let height = parseInt(document.documentElement.clientHeight, 10);
     return (
       <div id='Housing'>
-        <Container style={{minHeight: height - 255 + 'px'}}>
+        <Container>
           <Breadcrumb>
             <Breadcrumb.Item>
               <IndexLink to='/'>首页</IndexLink>
