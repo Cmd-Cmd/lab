@@ -3,27 +3,28 @@ import {Grid, Col} from 'amazeui-react';
 import {connect} from 'react-redux';
 
 import ListView from '../../components/home/ListView';
+import TableView from '../../components/home/TableView';
 
 class ListViews extends Component {
   render() {
     return (
       <Grid>
         <Col md={12}>
-          <ListView type='/today/' data={this.props.todayData} title='a'
-                    rfClick={() => this.props.rfClick('TODAY')}></ListView>
+          <TableView title='今日' english='today'
+                     data={this.props.todayData}></TableView>
         </Col>
         <Col md={6} sm={12}>
-          <ListView type='/news/' data={this.props.newsData} title='b'
-                    rfClick={() => this.props.rfClick('NEWS')}></ListView>
+          <ListView title='新闻' english='news'
+                    data={this.props.newsData}></ListView>
         </Col>
         <Col md={6} sm={12}>
-          <ListView type='/notice/' data={this.props.noticeData} title='b'
-                    rfClick={() => this.props.rfClick('NOTICE')}></ListView>
+          <ListView title='公告' english='notice'
+                    data={this.props.noticeData}></ListView>
         </Col>
       </Grid>
     );
   }
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
   return {

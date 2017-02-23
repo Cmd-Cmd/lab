@@ -1,4 +1,7 @@
-.listView .title {
+#tableView {
+  margin-bottom: 1rem;
+}
+#tableView .title {
   position: relative;
   margin: 0rem;
   padding-left: 0.5rem;
@@ -7,9 +10,9 @@
   letter-spacing: 0.2rem;
   background-color: #eee;
   color: #331919;
-  border-bottom: 2px solid rgb(102, 218, 32);
+  border-bottom: 2px solid #0e90d2;
 }
-.listView .title .subTitle {
+#tableView .title .subTitle {
   position: absolute;
   top: 0rem;
   left: 4rem;
@@ -18,7 +21,7 @@
   color: #333;
   opacity: 0.2;
 }
-.listView .title:before {
+#tableView .title:before {
   position: absolute;
   width: 0;
   height: 0;
@@ -27,20 +30,24 @@
   content: "";
   z-index: 1;
   border: 6px transparent solid;
-  border-bottom-color: rgb(102, 218, 32);
+  border-bottom-color: #0e90d2;
 }
-.listView .title:hover .subTitle {
+#tableView .title:hover .subTitle {
   text-shadow: 1px 1px 2px #003;
   opacity: 0.4;
 }
-.listView .am-list {
-  margin-top: 0;
-  margin-bottom: 3rem;
-}
-.listView .am-list>li>a {
-  padding: 5px;
+#tableView .public_fixedDataTable_main a {
   color: #331919;
 }
-.listView .am-list>li>a:hover {
+#tableView .public_fixedDataTable_bodyRow:hover * {
   background-color: #eef;
+}
+#timePickerContainer {
+  position: relative;
+}
+#timePicker.active {
+  display: block;
+  position: absolute;
+  top: 25px;
+  z-index: 10;
 }

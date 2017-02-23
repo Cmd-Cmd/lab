@@ -7,6 +7,7 @@ import App from './components/App';
 import Home from './components/home';
 import Housing from './containers/housing';
 import Listing from './containers/housing/Listing';
+import Tabling from './containers/housing/Tabling';
 import Essay from './containers/housing/Essay';
 import Search from './containers/search';
 import System from './components/system';
@@ -43,7 +44,7 @@ class Routers extends Component {
             this.props.navEnter('今日');
             this.props.onListing('TODAY');
           }}>
-            <IndexRoute component={Listing}></IndexRoute>
+            <IndexRoute component={Tabling}></IndexRoute>
             <Route path='/today/:id' component={Essay} onEnter={({params}) => {
               this.props.getEssay('TODAY', parseInt(params.id, 10));
             }}></Route>

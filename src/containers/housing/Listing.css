@@ -2,9 +2,6 @@
   background-color: white;
   margin: 0;
 }
-#Listing .titlebar-container {
-  padding-top: 10px;
-}
 #Listing .am-titlebar-title>span {
   cursor: pointer;
   user-select: none;

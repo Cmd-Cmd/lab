@@ -25,8 +25,7 @@ class LoginButton extends Component {
   render() {
     return (
       <ModalTrigger modal={this.modal}>
-        <Button amStyle='success'
-                className='am-topbar-btn'>登录</Button>
+        <Button amStyle='success' className='btn-response'>登录</Button>
       </ModalTrigger>
     );
   }

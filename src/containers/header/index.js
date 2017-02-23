@@ -24,8 +24,18 @@ class Header extends Component {
           <img alt='logo' className='logo'
                src={process.env.PUBLIC_URL + '/img/logo.png'}></img>
         </IndexLink>
+        <div className='am-fr am-margin-top-lg'>
+          <Form inline onSubmit={(e) => {
+            e.preventDefault();
+            browserHistory.push('/search');
+          }}>
+            <Input type='text' btnBefore={btnSearch} placeholder='搜索'></Input>
+          </Form>
+          <LoginButton></LoginButton>
+          <Button amStyle='secondary' className='btn-response'>注册</Button>
+        </div>
         <CollapsibleNav eventKey='nav'>
-          <Nav topbar>
+          <Nav topbar justify>
             {navArr.map((ele, inx) => {
               const temp = <Link to={ele.link}>{ele.name}</Link>;
               return (this.props.nowNav === ele.name) ?
@@ -33,17 +43,6 @@ class Header extends Component {
                       <li key={inx}>{temp}</li>;
             })}
           </Nav>
-          <div className='am-topbar-right'>
-            <LoginButton></LoginButton>
-            <Button amStyle='secondary' className='am-topbar-btn'>注册</Button>
-          </div>
-          <Form className='am-topbar-form am-topbar-right am-form-inline'
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  browserHistory.push('/search');
-                }}>
-            <Input type='text' btnBefore={btnSearch} placeholder='搜索'></Input>
-          </Form>
         </CollapsibleNav>
       </Topbar>
     );

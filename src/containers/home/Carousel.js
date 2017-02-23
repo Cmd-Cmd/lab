@@ -26,7 +26,7 @@ class Carousel extends Component {
             imgLink = <Link to={'/today/' + ele.link.id}>
                         <img src={ele.img} alt='inx'></img>
                       </Link>;
-            titleLink = <Link to={'/notice/' + ele.link.id}>{ele.title}</Link>;
+            titleLink = <Link to={'/today/' + ele.link.id}>{ele.title}</Link>;
           }
           return (
             <Slider.Item key={inx}>

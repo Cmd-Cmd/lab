@@ -2,8 +2,21 @@
   height: 90px;
   line-height: 90px;
 }
+#Topbar form {
+  display: inline-block;
+}
+#Topbar form div.am-form-group {
+  margin-bottom: 0;
+}
 @media only screen and (max-width: 641px){
   #Topbar .logo {
     height: 50px;
+  }
+  #Topbar div.am-fr {
+    margin-top: 0;
+  }
+  #Topbar button.btn-response {
+    width: 100%;
+    display: block;
   }
 }

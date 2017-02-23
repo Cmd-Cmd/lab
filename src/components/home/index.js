@@ -8,7 +8,7 @@ import Searches from '../../containers/home/Searches';
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: 'white'}}>
         <Carousel></Carousel>
         <Divider></Divider>
         <Grid fixed>

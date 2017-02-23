@@ -1,0 +1,17 @@
+#Tabling .am-titlebar {
+  background-color: white;
+  margin: 0;
+}
+#Tabling .am-titlebar-title>span {
+  cursor: pointer;
+  user-select: none;
+}
+#Tabling .am-list .am-list-item-hd {
+  color: #331919;
+}
+#Tabling .am-list .am-list-item-hd:hover {
+  color: #095f8a;
+}
+#Tabling .am-pagination>li {
+  cursor: pointer;
+}

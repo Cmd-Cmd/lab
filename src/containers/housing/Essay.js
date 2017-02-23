@@ -7,7 +7,7 @@ import {getEssay} from '../../action';
 class Essay extends Component {
   render() {
     return (
-      <Article className='am-margin-top' title={this.props.essay.title}
+      <Article className='am-margin-bottom' title={this.props.essay.title}
                meta={this.props.essay.meta}>
         <div dangerouslySetInnerHTML={{__html: this.props.essay.content}}></div>
       </Article>
