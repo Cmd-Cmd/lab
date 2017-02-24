@@ -1,113 +1,112 @@
 import React, {Component} from 'react';
-import {Titlebar, Icon, Sticky,
-        ScrollSpy, Form, Input,
-        Popover, PopoverTrigger,
-        Button, ButtonGroup, Pagination} from 'amazeui-react';
-import {Link, browserHistory} from 'react-router';
+import {Icon, Sticky, Button, Form, Input, DateTimePicker} from 'amazeui-react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import {Table, Column, Cell} from 'fixed-data-table';
 
 import './Tabling.css';
-import {listingPageTo} from '../../action';
+import {tablingTime} from '../../action';
 
 class Tabling extends Component {
-  render() {
-    const searchForm = (
-      <Popover placement='right' amSize='sm' amStyle='secondary'>
-        <Form inline onSubmit={(e) => {
-          e.preventDefault();
-          browserHistory.push('/search');
-        }}>
-          <Input placeholder={'搜索' + this.props.name + '...'}></Input>
-        </Form>
-      </Popover>
-    );
-    const props = {
-      title: (
-        <PopoverTrigger trigger='click' popover={searchForm}>
-          <Icon icon='paperclip'> {this.props.name}</Icon>
-        </PopoverTrigger>
-      ),
-      nav: [
-        {title: (
-          <span>
-            <ButtonGroup>
-              <Button amSize='sm' amStyle='link'
-                      disabled={(this.props.pageNow === 0)}
-                      onClick={() => {
-                        this.props.changePage(this.props.pageNow - 1);
-                      }}>
-                <Icon icon='angle-double-left'></Icon> 上一页
-              </Button>
-              <Button amStyle='link' amSize='sm' disabled
-                      className='am-padding-horizontal-0'>
-                {this.props.pageNow + 1} / {this.props.pageAll + 1}
-              </Button>
-              <Button amSize='sm' amStyle='link'
-                      disabled={(this.props.pageNow === this.props.pageAll)}
-                      onClick={() => {
-                        this.props.changePage(this.props.pageNow + 1);
-                      }}>
-                下一页 <Icon icon='angle-double-right'></Icon>
-              </Button>
-            </ButtonGroup>
-          </span>
-        )}]
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableWidth: 200
     };
-    let pageArr = [];
-    let temp = (this.props.pageNow - 2 < 0) ? 0 : this.props.pageNow - 2;
-    for (let i = temp; i < temp + 4 && i <= this.props.pageAll; i++) {
-      pageArr.push(i + 1);
-    }
-    if (pageArr.length === 3 && pageArr[0] > 1) {
-      pageArr.unshift(pageArr[0] - 1);
-    }
+  }
+
+  componentWillMount() {
+    this.props.setTime(0);
+  }
+
+  componentDidMount() {
+    this.setState({
+      tableWidth: parseInt(document.getElementById('tabling').offsetWidth, 10)
+    });
+  }
+
+  render() {
+    let {data, time, setTime} = this.props;
+    const searchBtn = (
+      <Button amStyle='secondary' type='submit'>
+        <Icon icon='search'>
+          &nbsp;<span className='am-hide-sm-only'>搜索</span>
+        </Icon>
+      </Button>
+    );
+    const dataBtn = (
+      <div>
+        <Button amStyle='primary' onClick={() => {
+          const temp = document.getElementById('tablingDate');
+          temp.setAttribute('class', 'am-datepicker active');
+          document.body.onclick = function(e) {
+            let temp = e.target;
+            let flag = false;
+            while (!flag) {
+              if (temp.getAttribute('id') === 'tablingDate') {
+                flag = true;
+              } else {
+                temp = temp.parentNode;
+              }
+              if (temp === document) {
+                break;
+              }
+            }
+            if (!flag) {
+              const temp = document.getElementById('tablingDate');
+              temp.setAttribute('class', 'am-datepicker');
+              document.body.onclick = null;
+            }
+          };
+        }}>
+          <Icon icon='calendar'>
+            &nbsp;<span className='am-hide-sm-only' id='dataShow'>
+              {(time === 0) ? '选择日期' : time}
+            </span>
+          </Icon>
+        </Button>
+        <Button amStyle='danger' onClick={() => setTime(0)}>
+          <Icon icon='close'></Icon>
+        </Button>
+        <DateTimePicker id='tablingDate' showTimePicker={false}
+                        format='YYYY/M/D' caretDisplayed={false}
+                        onSelect={time => {
+                          setTime(time);
+                          const temp = document.getElementById('tablingDate');
+                          temp.setAttribute('class', 'am-datepicker');
+                          document.body.onclick = null;
+                        }} />
+      </div>
+    );
     return (
-      <div id='Tabling'>
-        <div className='titlebar-container'>
-          <Sticky>
-            <Titlebar {...props}>123123</Titlebar>
-          </Sticky>
-        </div>
-        <ul className='am-list'>
-          {
-            this.props.data.map((ele, inx) => {
-              const temp = this.props.english.toLowerCase();
-              return (
-                <ScrollSpy key={inx}>
-                <li className='am-list-item-dated'>
-                    <Link to={`/${temp}/${ele.id}`}
-                            className='am-list-item-hd'>{ele.title}</Link>
-                    <span className='am-list-date'>{ele.date}</span>
-                </li>
-            </ScrollSpy>
-              );
-            })}
-        </ul>
-        <Pagination centered>
-          <Pagination.Item disabled={(this.props.pageNow === 0)}>
-            <Icon icon='angle-double-left'
-                  onClick={
-                    (e) => this.props.changePage(this.props.pageNow - 1)}>
-            </Icon>
-          </Pagination.Item>
-          {pageArr.map((ele, inx) => {
-            return (
-              <Pagination.Item key={inx}
-                               active={this.props.pageNow === ele - 1}>
-                <Icon icon='blank'
-                      onClick={(e) => this.props.changePage(ele - 1)}>
-                  {ele}
-                </Icon>
-              </Pagination.Item>
-            );
-          })}
-          <Pagination.Item disabled={(this.props.pageNow ===
-                                      this.props.pageAll)}>
-            <Icon icon='angle-double-right'
-                  onClick={(e) => this.props.changePage(this.props.pageNow + 1)}
-                  ></Icon>
-          </Pagination.Item>
-        </Pagination>
+      <div id='tabling'>
+        <Sticky>
+          <Form>
+            <Input btnBefore={searchBtn} btnAfter={dataBtn} />
+          </Form>
+        </Sticky>
+        <Table rowHeight={40} headerHeight={50} height={700}
+               rowsCount={data.length}
+               width={this.state.tableWidth}>
+          <Column width={120} header={<Cell>时间</Cell>} fixed
+                  cell={props => (
+                    <Link to={`/today/${data[props.rowIndex].id}`}>
+                      <Cell>{data[props.rowIndex].time}</Cell>
+                    </Link>
+                  )}/>
+          <Column width={80} header={<Cell>教室</Cell>} fixed
+                  cell={props => (
+                    <Link to={`/today/${data[props.rowIndex].id}`}>
+                      <Cell>{data[props.rowIndex].room}</Cell>
+                    </Link>
+                  )}/>
+          <Column width={200} header={<Cell>内容</Cell>} flexGrow={1}
+                  cell={props => (
+                    <Link to={`/today/${data[props.rowIndex].id}`}>
+                      <Cell>{data[props.rowIndex].content}</Cell>
+                    </Link>
+                  )}/>
+        </Table>
       </div>
     );
   }
@@ -115,17 +114,14 @@ class Tabling extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    name: state.listing.name,
-    english: state.listing.english,
-    data: state.listing.listData,
-    pageNow: state.listing.pageNow,
-    pageAll: state.listing.pageAll
+    data: state.tabling.data,
+    time: state.tabling.time
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changePage: (page) => dispatch(listingPageTo(page))
+    setTime: time => dispatch(tablingTime(time))
   };
 };
 

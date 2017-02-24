@@ -7,11 +7,17 @@ import {IndexLink, Link, browserHistory} from 'react-router';
 import LoginButton from './LoginButton';
 import './Header.css';
 
+const logined = true;
+
 const navArr = [
   {name: '首页', link: '/'},
-  {name: '系统', link: '/system'},
-  {name: '资料', link: '/data'},
-  {name: '开放实验', link: '/openExper'}
+  {name: '平台概况', link: '/'},
+  {name: '信息中心', link: '/'},
+  {name: '教师中心', link: '/'},
+  {name: '教师风采', link: '/'},
+  {name: '教学资源', link: '/'},
+  {name: '开放实验', link: '/'},
+  {name: '平台系统', link: '/'},
 ];
 const btnSearch = <Button type='submit'><Icon icon='search'></Icon></Button>;
 
@@ -31,8 +37,17 @@ class Header extends Component {
           }}>
             <Input type='text' btnBefore={btnSearch} placeholder='搜索'></Input>
           </Form>
-          <LoginButton></LoginButton>
-          <Button amStyle='secondary' className='btn-response'>注册</Button>
+          {(logined) ?
+            <Link to='/system'>
+              <Button amStyle='secondary' className='btn-response'>
+                <Icon icon='user'> 个人中心</Icon>
+              </Button>
+            </Link> :
+            <span>
+              <LoginButton></LoginButton>
+              <Button amStyle='secondary' className='btn-response'>注册</Button>
+            </span>
+          }
         </div>
         <CollapsibleNav eventKey='nav'>
           <Nav topbar justify>

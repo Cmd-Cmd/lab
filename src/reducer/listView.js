@@ -34,11 +34,19 @@ const test2 = [
 const initState = {
   newsData: test,
   noticeData: test,
-  todayData: test2
+  todayData: test2,
+  todayTime: 0
 };
 
 const listView = (state = initState, action) => {
+  let nextState = Object.assign({}, state);
   switch (action.type) {
+    case 'RESET_TABLEVIEW_TIME':
+      nextState.todayTime = 0;
+      return nextState;
+    case 'SET_TABLEVIEW_TIME':
+      nextState.todayTime = action.payload;
+      return nextState;
     default:
       return state;
   }

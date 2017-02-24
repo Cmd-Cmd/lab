@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {Article} from 'amazeui-react';
 import {connect} from 'react-redux';
 
-import {getEssay} from '../../action';
-
 class Essay extends Component {
   render() {
     return (
@@ -22,11 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getEssay: (type, id) => (dispatch(getEssay(type, id)))
-  };
-};
+const mapDispatchToProps = (dispatch, ownProps) => ({});
 
 Essay = connect(mapStateToProps, mapDispatchToProps)(Essay);
 

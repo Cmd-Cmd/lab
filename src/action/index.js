@@ -34,6 +34,30 @@ export const searchPageTo = (payload) => {
   };
 };
 
+export const tableViewTime = (payload) => {
+  if (payload === 0) {
+    return {
+      type: 'RESET_TABLEVIEW_TIME'
+    };
+  }
+  return {
+    type: 'SET_TABLEVIEW_TIME',
+    payload
+  };
+};
+
+export const tablingTime = (payload) => {
+  if (payload === 0) {
+    return {
+      type: 'RESET_TABLING_TIME'
+    };
+  }
+  return {
+    type: 'SET_TABLING_TIME',
+    payload
+  };
+};
+
 const getStart = (housing, id) => {
   console.log(`GET_START - ${housing} - ${id}`);
   return {

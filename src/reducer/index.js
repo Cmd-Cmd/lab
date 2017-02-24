@@ -6,6 +6,7 @@ import listView from './listView';
 import listing from './listing';
 import essay from './essay';
 import search from './search';
+import tabling from './tabling';
 
 const reducer = combineReducers({
   navTab,
@@ -13,7 +14,8 @@ const reducer = combineReducers({
   listView,
   listing,
   essay,
-  search
+  search,
+  tabling
 });
 
 export default reducer;

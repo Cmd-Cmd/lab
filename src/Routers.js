@@ -11,8 +11,6 @@ import Tabling from './containers/housing/Tabling';
 import Essay from './containers/housing/Essay';
 import Search from './containers/search';
 import System from './components/system';
-import Data from './components/data';
-import OpenExper from './components/openExper';
 import NotFound from './components/notFound';
 
 class Routers extends Component {
@@ -55,10 +53,6 @@ class Routers extends Component {
           }}></Route>
           <Route path='/system' component={System}
                  onEnter={() => this.props.navEnter('系统')}></Route>
-          <Route path='/data' component={Data}
-                 onEnter={() => this.props.navEnter('资料')}></Route>
-          <Route path='/openExper' component={OpenExper}
-                 onEnter={() => this.props.navEnter('开放实验')}></Route>
           <Route path='*' component={NotFound}></Route>
           <Route path='/notFound'></Route>
         </Route>

@@ -13,6 +13,10 @@ class TableView extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.setTime(0);
+  }
+
   componentDidMount() {
     this.setState({
       tableWidth: parseInt(document.getElementById('tableView').offsetWidth, 10)
@@ -20,7 +24,7 @@ class TableView extends Component {
   }
 
   render() {
-    let {data, title, english} = this.props;
+    let {data, title, english, time} = this.props;
     return (
       <div id='tableView'>
         <Link to={`/${english}`}>
@@ -75,15 +79,14 @@ class TableView extends Component {
                       }
                     };
                   }}>
-            选择日期
+            {(time === 0) ? '选择日期' : time}
           </Button>
           <DateTimePicker id='timePicker' showTimePicker={false}
                           format='YYYY/M/D'
                           onSelect={time => {
-                            const temp1 = document.getElementById('pickerBtn');
-                            temp1.innerHTML = time;
-                            const temp2 = document.getElementById('timePicker');
-                            temp2.setAttribute('class', 'am-datepicker');
+                            this.props.setTime(time);
+                            const temp = document.getElementById('timePicker');
+                            temp.setAttribute('class', 'am-datepicker');
                             document.body.onclick = null;
                           }} />
           <Link to={`/${english}`} className='am-text-sm am-fr'>

@@ -65,7 +65,7 @@ class Listing extends Component {
       <div id='Listing'>
         <div className='titlebar-container'>
           <Sticky>
-            <Titlebar {...props}>123123</Titlebar>
+            <Titlebar {...props}></Titlebar>
           </Sticky>
         </div>
         <ul className='am-list'>

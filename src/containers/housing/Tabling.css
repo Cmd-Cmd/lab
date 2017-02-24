@@ -1,17 +1,19 @@
-#Tabling .am-titlebar {
-  background-color: white;
-  margin: 0;
+#tablingDate.active {
+  display: block;
+  position: absolute;
+  top: 35px;
+  left: -90px;
+  z-index: 100;
 }
-#Tabling .am-titlebar-title>span {
-  cursor: pointer;
-  user-select: none;
-}
-#Tabling .am-list .am-list-item-hd {
+#tabling .public_fixedDataTable_main a {
   color: #331919;
 }
-#Tabling .am-list .am-list-item-hd:hover {
-  color: #095f8a;
+#tabling .public_fixedDataTable_bodyRow:hover * {
+  background-color: #eef;
 }
-#Tabling .am-pagination>li {
-  cursor: pointer;
+@media only screen and (max-width: 640px) {
+  #tablingDate.active {
+    left: -200px;
+    width: 300px;
+  }
 }

@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <div>
         <Header></Header>
-        <div style={{minHeight: height + 'px'}}>
+        <div style={{minHeight: height + 'px'}} id='appMain'>
           {this.props.children}
         </div>
         <Footer></Footer>

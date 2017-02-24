@@ -1,4 +1,4 @@
-import {newsData, noticeData, todayData} from './exampeData';
+import {newsData, noticeData} from './exampeData';
 
 const initState = {
   name: '',
@@ -27,7 +27,6 @@ const listing = (state = initState, action) => {
           break;
         case 'TODAY':
           nextState.name = '今日';
-          tempData = todayData;
           break;
         default:
           return state;
@@ -42,9 +41,6 @@ const listing = (state = initState, action) => {
           break;
         case 'NOTICE':
           tempData = noticeData;
-          break;
-        case 'TODAY':
-          tempData = todayData;
           break;
         default:
           return state;
