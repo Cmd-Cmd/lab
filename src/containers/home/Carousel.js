@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Slider, Icon} from 'amazeui-react';
+import {Slider} from 'amazeui-react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
