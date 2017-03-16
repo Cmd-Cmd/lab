@@ -6,31 +6,18 @@ import './Sidebar.css';
 import {sidebarData} from './sidebarData';
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      active: -1
-    };
-  }
-
-  toggleUl(inx) {
-    this.setState((prevState, props) => {
-      return {
-        active: (prevState.active === inx) ? -1 : inx
-      };
-    });
-  }
-
   render() {
     return (
       <ul id='Sidebar'>
         {sidebarData.map((ele, inx) => {
           return (
             <li key={inx}
-                className={(this.state.active === inx) ? 'active' : ''}>
-              <span onClick={() => this.toggleUl(inx)}>
+                className={(this.props.active === inx) ? 'active' : ''}>
+              <span onClick={() => {
+                this.props.activeTo((this.props.active === inx) ? '-1' : inx);
+              }}>
                 {ele.name + ' '}
-                <Icon icon={(this.state.active === inx) ?
+                <Icon icon={(this.props.active === inx) ?
                              'minus-square-o' :
                              'plus-square-o'}>
                 </Icon>

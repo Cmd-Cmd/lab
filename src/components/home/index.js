@@ -8,15 +8,15 @@ import Searches from '../../containers/home/Searches';
 class Home extends Component {
   render() {
     return (
-      <div style={{backgroundColor: 'white'}}>
-        <Carousel></Carousel>
-        <Divider></Divider>
+      <div>
+        <Carousel />
+        <Divider />
         <Grid fixed>
           <Col md={8} sm={12}>
-            <ListViews></ListViews>
+            <ListViews />
           </Col>
           <Col md={4} sm={12}>
-            <Searches></Searches>
+            <Searches />
           </Col>
         </Grid>
       </div>

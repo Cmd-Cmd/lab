@@ -1,4 +1,4 @@
-import {todayData, todayData2} from './exampeData';
+import {todayData, todayData2} from './exampleData';
 
 const initState = {
   data: todayData,

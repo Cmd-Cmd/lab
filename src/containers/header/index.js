@@ -7,8 +7,6 @@ import {IndexLink, Link, browserHistory} from 'react-router';
 import LoginButton from './LoginButton';
 import './Header.css';
 
-const logined = true;
-
 const navArr = [
   {name: '首页', link: '/'},
   {name: '平台概况', link: '/'},
@@ -37,7 +35,7 @@ class Header extends Component {
           }}>
             <Input type='text' btnBefore={btnSearch} placeholder='搜索'></Input>
           </Form>
-          {(logined) ?
+          {(this.props.logined) ?
             <Link to='/system'>
               <Button amStyle='secondary' className='btn-response'>
                 <Icon icon='user'> 个人中心</Icon>
@@ -45,7 +43,6 @@ class Header extends Component {
             </Link> :
             <span>
               <LoginButton></LoginButton>
-              <Button amStyle='secondary' className='btn-response'>注册</Button>
             </span>
           }
         </div>
@@ -64,7 +61,10 @@ class Header extends Component {
   }
 };
 
-const mapStateToProps = (state, ownProps) => ({nowNav: state.navTab});
+const mapStateToProps = (state, ownProps) => ({
+  nowNav: state.navTab,
+  logined: state.login.logined
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({});
 

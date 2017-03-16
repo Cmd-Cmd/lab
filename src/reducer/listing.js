@@ -1,4 +1,4 @@
-import {newsData, noticeData} from './exampeData';
+import {newsData, noticeData} from './exampleData';
 
 const initState = {
   name: '',

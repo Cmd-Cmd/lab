@@ -1,0 +1,44 @@
+#System-menu {
+  width: 260px;
+  float: left;
+  padding-right: 10px;
+  padding-top: 10px;
+  background-color: white;
+  border-right: 3px solid #eee;
+}
+#System-content {
+  padding: 20px;
+  margin-left: 270px;
+  max-width: 1180px;
+}
+#System-content .systemTitle {
+  font-size: 2rem;
+  background: linear-gradient(to right, rgba(255, 19, 64, 0.1), rgba(255, 255, 255, 0));
+  max-width: 15em;
+  transition: all 1s;
+  padding-left: 0.5em;
+}
+#System-content .systemTitle:hover {
+  padding-left: 1.5em;
+}
+#System-content div.input-name {
+  height: 37px;
+  line-height: 37px;
+  font-weight: bold;
+  background: linear-gradient(to right, rgba(0, 200, 255, 0.1), rgba(255, 255, 255, 0));
+  padding-left: 0.5em;
+  margin: 0 -1rem;
+}
+@media only screen and (max-width: 640px) {
+  #System-menu {
+    width: 100%;
+    float: none;
+    padding: 0;
+    background-color: #eff;
+    border: 0;
+  }
+  #System-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+}

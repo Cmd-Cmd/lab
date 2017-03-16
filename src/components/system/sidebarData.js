@@ -2,15 +2,23 @@ export const sidebarData = [
   {
     name: '个人中心',
     links: [
-      {name: '个人信息', to: '/PersonInfo'},
-      {name: '修改密码', to: '/ChangePassword'}
+      {name: '个人信息', to: '/system/person'},
+      {name: '修改密码', to: '/system/changePassword'}
     ]
   },
   {
     name: '管理员中心',
     links: [
-      {name: '创建新用户', to: '/NewUser'},
-      {name: '权限管理', to: 'ManagerRank'}
+      {name: '创建新用户', to: '/system/newUser'},
+      {name: '用户信息管理', to: '/system/userInfoList'},
+      {name: '用户权限管理', to: '/system/userRankList'}
+    ]
+  },
+  {
+    name: '药品库',
+    links: [
+      {name: '新增药品', to: '/system/addDrug'},
+      {name: '药品信息管理', to: '/ManagerDrug'}
     ]
   },
   {
@@ -18,13 +26,6 @@ export const sidebarData = [
     links: [
       {name: '发布文章', to: '/NewArticle'},
       {name: '管理文章', to: '/ManagerArticle'}
-    ]
-  },
-  {
-    name: '药品库',
-    links: [
-      {name: '查询药品', to: '/SearchDrug'},
-      {name: '药品信息管理', to: '/ManagerDrug'}
     ]
   },
   {

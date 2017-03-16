@@ -10,7 +10,7 @@ class ListView extends Component {
     return (
       <div className='listView'>
         <Link to={`/${english}`}>
-          <h3 className={'title'}>
+          <h3 className='title'>
             {title}<span className='subTitle'>{english}</span>
           </h3>
         </Link>

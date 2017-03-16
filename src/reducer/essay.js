@@ -15,17 +15,22 @@ const example = {
 const essay = (state = initState, action) => {
   let nextState;
   switch (action.type) {
-    case 'GET_START':
+    case 'FETCH_GETNEWS_START':
+    case 'FETCH_GETNOTICE_START':
+    case 'FETCH_GETTODAY_START':
       nextState = initState;
       break;
-    case 'GET_FINISH':
-      if (action.payload === '') {
-        browserHistory.replace('/notFound');
-        nextState = initState;
-        break;
-      }
+    case 'FETCH_GETNEWS_SUCCESS':
+    case 'FETCH_GETNOTICE_SUCCESS':
+    case 'FETCH_GETTODAY_SUCCESS':
       nextState = example;
-      nextState.content = action.payload;
+      nextState.content = action.payload.cont;
+      break;
+    case 'FETCH_GETNEWS_ERROR':
+    case 'FETCH_GETNOTICE_ERROR':
+    case 'FETCH_GETTODAY_ERROR':
+      nextState = initState;
+      browserHistory.replace('/notFound');
       break;
     default:
       return state;
