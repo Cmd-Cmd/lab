@@ -26,6 +26,7 @@ class LoginButton extends Component {
           this.props.login(form);
         }}>
           <Grid>
+            <Col sm={12} id='loginAlert'></Col>
             <Col sm={12}>
               <Input addonBefore={<Icon icon='user' />}
                      placeholder='用户名' type='text' amStyle='primary'

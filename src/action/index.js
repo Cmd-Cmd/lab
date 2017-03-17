@@ -1,3 +1,26 @@
+export const logout = (payload) => {
+  return {
+    type: 'LOGOUT'
+  };
+};
+
+export const personChange = (payload) => {
+  return {
+    type: 'SET_LOGIN_CHANGE',
+    payload
+  };
+};
+
+export const personForm = (e) => {
+  return {
+    type: 'CHANGE_LOGIN_DETAIL',
+    payload: {
+      name: e.target.name,
+      value: e.target.value
+    }
+  };
+};
+
 export const changeSystemActive = (payload) => {
   return {
     type: 'CHANGE_SYSTEM_ACTIVE',

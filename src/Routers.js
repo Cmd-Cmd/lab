@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import {navChangeTo, enterListing, enterSearch,
         changeSystemActive} from './action';
+import {token} from './action/fetch';
 
 import {getEssay} from './action/fetch';
 import App from './components/App';
@@ -26,7 +27,16 @@ class Routers extends Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path='/' component={App}>
+        <Route path='/' component={App} onEnter={(ns, rp, cb) => {
+          if (!localStorage.id || !localStorage.token) {
+            cb();
+          } else {
+            this.props.token(cb, {
+              id: localStorage.id,
+              pw: localStorage.token
+            });
+          }
+        }}>
           <IndexRoute component={Home}
                       onEnter={() => this.props.navEnter('首页')}></IndexRoute>
           <Route path='/news' component={Housing} onEnter={() => {
@@ -63,8 +73,9 @@ class Routers extends Component {
             this.props.navEnter('搜索');
             this.props.onSearch();
           }}></Route>
-          <Route path='/system' component={System}
-                 onEnter={() => this.props.navEnter('系统')}>
+          <Route path='/system' component={System} onEnter={(ns, rp) => {
+            this.props.navEnter('系统');
+          }}>
             <IndexRedirect to='/system/person'></IndexRedirect>
             <Route path='/system/person' component={Person} onEnter={() => {
               this.props.changeSystemActive(0);
@@ -95,7 +106,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onListing: (text) => dispatch(enterListing(text)),
     getEssay: (housing, id) => dispatch(getEssay(housing, id)),
     onSearch: () => dispatch(enterSearch()),
-    changeSystemActive: inx => dispatch(changeSystemActive(inx))
+    changeSystemActive: inx => dispatch(changeSystemActive(inx)),
+    token: (cb, temp) => dispatch(token(cb, temp))
   };
 };
 

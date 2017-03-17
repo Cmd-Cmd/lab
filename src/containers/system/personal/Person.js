@@ -1,33 +1,43 @@
 import React, {Component} from 'react';
 import {Input, Grid, Col, Button} from 'amazeui-react';
-import $ from 'jquery';
+import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
+
+import {personForm, personChange, logout} from '../../../action';
+import {getPerson, personUpdate} from '../../../action/fetch';
 
 class Person extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      change: false
-    };
+  componentDidMount() {
+    this.props.getPerson(this.props.userid);
   }
 
   changeInfo(e) {
     e.preventDefault();
-    if (this.state.change) {
-      console.log($('#personForm').serializeArray());
+    if (!this.props.change) {
+      this.props.toggleChange(true);
+    } else {
+      this.props.personUpdate();
     }
-    this.setState((prevState, props) => ({
-      change: !prevState.change
-    }));
   }
 
   render() {
+    let {email, address, QQ} = this.props.detail;
+    let phonenumberLong = 'phonenumber_long';
+    phonenumberLong = this.props.detail[phonenumberLong];
+    let phonenumberShort = 'phonenumber_short';
+    phonenumberShort = this.props.detail[phonenumberShort];
+    let {idebtity, name, ID} = this.props.detail;
+    let creatTime = 'creat_time';
+    creatTime = this.props.detail[creatTime];
+    let lastTime = 'last_time';
+    lastTime = this.props.detail[lastTime];
     return (
       <div>
         <div className='systemTitle'>
           个人信息
         </div>
         <hr></hr>
-        <form id='personForm'>
+        <form id='personForm' style={{position: 'relative'}}>
           <Grid>
             <Col sm={12} md={8}>
               <Grid>
@@ -37,8 +47,9 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={10}>
-                  <Input defaultValue='123456789@qq.com' name='email'
-                         disabled={(this.state.change) ? false : true} />
+                  <Input value={email} name='email' type='email'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
                 </Col>
                 <Col sm={12} md={2}>
                   <div className='input-name'>
@@ -46,8 +57,9 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={10}>
-                  <Input defaultValue='13467985213' name='phoneLong'
-                         disabled={(this.state.change) ? false : true} />
+                  <Input value={phonenumberLong} name='phonenumber_long'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
                 </Col>
                 <Col sm={12} md={2}>
                   <div className='input-name'>
@@ -55,8 +67,29 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={10}>
-                  <Input defaultValue='467913' name='phoneShort'
-                         disabled={(this.state.change) ? false : true} />
+                  <Input value={phonenumberShort} name='phonenumber_short'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
+                </Col>
+                <Col sm={12} md={2}>
+                  <div className='input-name'>
+                    QQ
+                  </div>
+                </Col>
+                <Col sm={12} md={10}>
+                  <Input value={QQ} name='QQ'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
+                </Col>
+                <Col sm={12} md={2}>
+                  <div className='input-name'>
+                    身份
+                  </div>
+                </Col>
+                <Col sm={12} md={10}>
+                  <Input value={idebtity} name='idebtity'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
                 </Col>
                 <Col sm={12} md={2}>
                   <div className='input-name'>
@@ -64,13 +97,14 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={10}>
-                  <Input defaultValue='XXXXXXXXXXXXXX' name='address'
-                         disabled={(this.state.change) ? false : true} />
+                  <Input value={address} name='address'
+                         disabled={(this.props.change) ? false : true}
+                         onChange={(e) => this.props.formChange(e)} />
                 </Col>
                 <Col sm={12}>
                   <Button amStyle='success' block
                           onClick={(e) => this.changeInfo(e)}>
-                    {(this.state.change) ? '确认修改' : '修改信息'}
+                    {(this.props.change) ? '确认修改' : '修改信息'}
                   </Button>
                 </Col>
               </Grid>
@@ -83,15 +117,15 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={8}>
-                  <Input defaultValue='Cmd' disabled></Input>
+                  <Input value={name} disabled></Input>
                 </Col>
                 <Col sm={12} md={4}>
                   <div className='input-name'>
-                    学号
+                    学号/工号
                   </div>
                 </Col>
                 <Col sm={12} md={8}>
-                  <Input defaultValue='11111111' disabled></Input>
+                  <Input value={ID} disabled></Input>
                 </Col>
                 <Col sm={12} md={4}>
                   <div className='input-name'>
@@ -99,7 +133,7 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={8}>
-                  <Input defaultValue='2017-2-28 13:15:20' disabled></Input>
+                  <Input value={lastTime} disabled></Input>
                 </Col>
                 <Col sm={12} md={4}>
                   <div className='input-name'>
@@ -107,7 +141,15 @@ class Person extends Component {
                   </div>
                 </Col>
                 <Col sm={12} md={8}>
-                  <Input defaultValue='1900-1-1 0:00:00' disabled></Input>
+                  <Input value={creatTime} disabled></Input>
+                </Col>
+                <Col sm={12}>
+                  <Button amStyle='danger' block onClick={() => {
+                    this.props.logout();
+                    browserHistory.push('/');
+                  }}>
+                    注销
+                  </Button>
                 </Col>
               </Grid>
             </Col>
@@ -117,5 +159,23 @@ class Person extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  change: state.login.change,
+  userid: state.login.infos.ID,
+  detail: state.login.detail
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getPerson: id => dispatch(getPerson(id)),
+    formChange: e => dispatch(personForm(e)),
+    toggleChange: payload => dispatch(personChange(payload)),
+    personUpdate: () => dispatch(personUpdate()),
+    logout: () => dispatch(logout())
+  };
+};
+
+Person = connect(mapStateToProps, mapDispatchToProps)(Person);
 
 export default Person;
