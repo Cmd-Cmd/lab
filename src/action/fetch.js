@@ -22,6 +22,70 @@ const fetchError = (op, payload = {}) => {
   };
 };
 
+const fetchTemplete = (type, form) => {
+  return fetch(`http://bxw2359770225.my3w.com/Ashx/${type}.ashx`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/javascript, */*; q=0.01',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    body: 'json=' + escape(JSON.stringify(form))
+  });
+};
+
+export const changePassword = (payload) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('CHANGEPW'));
+    const temp = {
+      type: 'Rank_UpdatePW',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'old_pw': payload.oldPW,
+      'new_pw': payload.newPW
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('CHANGEPW', '更改密码成功'));
+          } else {
+            dispatch(fetchError('CHANGEPW', `更改密码失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('CHANGEPW', `更改密码失败: RES-${res.status}`));
+      }
+    }, (e) => dispatch(fetchError('CHANGEPW', `更改密码失败: ${e}`)));
+  };
+};
+
+export const changeQuestion = (payload) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('CHANGEQA'));
+    const temp = {
+      type: 'Rank_UpdateQA',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      question: payload.question,
+      answer: payload.answer,
+      'old_pw': payload.oldPW
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('CHANGEQA', '更改问题成功'));
+          } else {
+            dispatch(fetchError('CHANGEQA', `更改问题失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('CHANGEQA', `更改问题失败: RES-${res.status}`));
+      }
+    }, (e) => dispatch(fetchError('CHANGEQA', `更改问题失败: ${e}`)));
+  };
+};
+
 export const personUpdate = () => {
   return (dispatch, getState) => {
     dispatch(fetchStart('UPDATEPERSON'));
@@ -40,14 +104,7 @@ export const personUpdate = () => {
       'phonenumber_short': detailSnap[phonenumberShort],
       address: detailSnap.address
     };
-    fetch('http://bxw2359770225.my3w.com/Ashx/LoginHandler.ashx', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      body: 'json=' + escape(JSON.stringify(temp))
-    }).then(res => {
+    fetchTemplete('LoginHandler', temp).then(res => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {
@@ -74,14 +131,7 @@ export const getPerson = (findId) => {
       pw: snapState.token,
       'find_id': findId
     };
-    fetch('http://bxw2359770225.my3w.com/Ashx/LoginHandler.ashx', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      body: 'json=' + escape(JSON.stringify(temp))
-    }).then(res => {
+    fetchTemplete('LoginHandler', temp).then(res => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {
@@ -101,14 +151,7 @@ export const token = (cb, temp) => {
   return (dispatch, getState) => {
     dispatch(fetchStart('TOKEN', temp));
     temp.type = 'Login';
-    fetch('http://bxw2359770225.my3w.com/Ashx/LoginHandler.ashx', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      body: 'json=' + escape(JSON.stringify(temp))
-    }).then(res => {
+    fetchTemplete('LoginHandler', temp).then(res => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {
@@ -134,14 +177,7 @@ export const login = form => {
   return (dispatch, getState) => {
     dispatch(fetchStart('LOGIN', form));
     form.type = 'Login';
-    fetch('http://bxw2359770225.my3w.com/Ashx/LoginHandler.ashx', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      body: 'json=' + escape(JSON.stringify(form))
-    }).then(res => {
+    fetchTemplete('LoginHandler', form).then(res => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {

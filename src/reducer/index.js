@@ -9,6 +9,7 @@ import essay from './essay';
 import search from './search';
 import tabling from './tabling';
 import system from './system';
+import changePassword from './changePassword';
 
 const reducer = combineReducers({
   login,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   essay,
   search,
   tabling,
-  system
+  system,
+  changePassword
 });
 
 export default reducer;
