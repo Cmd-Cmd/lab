@@ -10,6 +10,7 @@ import search from './search';
 import tabling from './tabling';
 import system from './system';
 import changePassword from './changePassword';
+import reset from './reset';
 
 const reducer = combineReducers({
   login,
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   search,
   tabling,
   system,
-  changePassword
+  changePassword,
+  reset
 });
 
 export default reducer;

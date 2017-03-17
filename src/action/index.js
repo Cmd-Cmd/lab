@@ -1,3 +1,9 @@
+export const initReset = () => {
+  return {
+    type: 'INIT_RESET'
+  };
+};
+
 export const logout = (payload) => {
   return {
     type: 'LOGOUT'

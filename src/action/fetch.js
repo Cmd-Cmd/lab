@@ -33,6 +33,53 @@ const fetchTemplete = (type, form) => {
   });
 };
 
+export const resetByQA = (id, answer) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('RESETBYQA'));
+    const temp = {
+      type: 'ResetPWByID',
+      id,
+      answer
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('RESETBYQA'));
+          } else {
+            dispatch(fetchError('RESETBYQA', `重置失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('RESETBYQA', `重置失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('RESETBYQA', `重置失败: ${e}`)));
+  };
+};
+
+export const getQA = (id) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETQA'));
+    const temp = {
+      type: 'GetQA',
+      id
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETQA', data.data[0].question));
+          } else {
+            dispatch(fetchError('GETQA', `获取问题失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETQA', `获取问题失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETQA', `获取问题失败: ${e}`)));
+  };
+};
+
 export const changePassword = (payload) => {
   return (dispatch, getState) => {
     dispatch(fetchStart('CHANGEPW'));
@@ -55,7 +102,7 @@ export const changePassword = (payload) => {
       } else {
         dispatch(fetchError('CHANGEPW', `更改密码失败: RES-${res.status}`));
       }
-    }, (e) => dispatch(fetchError('CHANGEPW', `更改密码失败: ${e}`)));
+    }, e => dispatch(fetchError('CHANGEPW', `更改密码失败: ${e}`)));
   };
 };
 
@@ -82,7 +129,7 @@ export const changeQuestion = (payload) => {
       } else {
         dispatch(fetchError('CHANGEQA', `更改问题失败: RES-${res.status}`));
       }
-    }, (e) => dispatch(fetchError('CHANGEQA', `更改问题失败: ${e}`)));
+    }, e => dispatch(fetchError('CHANGEQA', `更改问题失败: ${e}`)));
   };
 };
 

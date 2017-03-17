@@ -46,7 +46,7 @@ class LoginButton extends Component {
             </Col>
             <Col sm={12}>
               <Button amStyle='success' block type='submit'>登录</Button>
-              <Button amStyle='link'>找回密码</Button>
+              <Button amStyle='link'><a href='/reset'>找回密码</a></Button>
             </Col>
           </Grid>
         </form>

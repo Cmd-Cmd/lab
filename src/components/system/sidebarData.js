@@ -3,7 +3,7 @@ export const sidebarData = [
     name: '个人中心',
     links: [
       {name: '个人信息', to: '/system/person'},
-      {name: '修改密码', to: '/system/changePassword'}
+      {name: '修改密码和问题', to: '/system/changePassword'}
     ]
   },
   {

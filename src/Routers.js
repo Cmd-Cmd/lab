@@ -21,6 +21,7 @@ import ChangePassword from './containers/system/personal/ChangePassword';
 import NewUser from './containers/system/admin/NewUser';
 import AddDrug from './containers/system/drug/AddDrug';
 import DrugDetail from './containers/system/drug/DrugDetail';
+import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
 class Routers extends Component {
@@ -90,6 +91,9 @@ class Routers extends Component {
             <Route path='/system/drugDetail' component={DrugDetail}
                    onenter={() => this.props.changeSystemActive(2)}></Route>
           </Route>
+          <Route path='/reset' component={Reset} onEnter={() => {
+            this.props.navEnter('重置');
+          }}></Route>
           <Route path='/notFound' component={NotFound}></Route>
           <Route path='*' component={NotFound}></Route>
         </Route>
