@@ -1,7 +1,21 @@
 import React, {Component} from 'react';
 import {Input, Grid, Col, Button, Icon} from 'amazeui-react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import $ from 'jquery';
+
+import {addDrug} from '../../../action/fetch';
 
 class AddDrug extends Component {
+  formSubmit(e) {
+    e.preventDefault();
+    let temp = {};
+    $($('#addDrugForm').serializeArray()).each((inx, ele) => {
+      temp[ele.name] = ele.value;
+    });
+    this.props.addDrug(temp);
+  }
+
   render() {
     return (
       <div>
@@ -9,7 +23,7 @@ class AddDrug extends Component {
           新增药品
         </div>
         <hr></hr>
-        <form>
+        <form onSubmit={e => this.formSubmit(e)} id='addDrugForm'>
           <Grid>
             <Col sm={12} md={2}>
               <div className='input-name'>
@@ -20,7 +34,7 @@ class AddDrug extends Component {
               </div>
             </Col>
             <Col sm={12} md={4}>
-              <Input name='drug' />
+              <Input name='drug' required />
             </Col>
             <Col sm={12} md={2}>
               <div className='input-name'>
@@ -39,7 +53,7 @@ class AddDrug extends Component {
               </div>
             </Col>
             <Col sm={12} md={4}>
-              <Input name='fen_zi_shi' />
+              <Input name='fen_zi_shi' required />
             </Col>
             <Col sm={12} md={2}>
               <div className='input-name'>
@@ -93,8 +107,15 @@ class AddDrug extends Component {
               <small>
                 <Icon icon='asterisk' className='am-text-danger'/>
                 &nbsp;项不能空白
+                {
+                  this.props.linkto !== '' ?
+                  <Link to='/system/drugDetail' className='am-fr'
+                        style={{cursor: 'pointer'}}>
+                          进入药品 <strong>{this.props.linkto}</strong> 详细编辑页面
+                  </Link> : ''
+                }
               </small>
-              <Button amStyle='success' block>新增药品</Button>
+              <Button amStyle='success' block type='submit'>新增药品</Button>
             </Col>
           </Grid>
         </form>
@@ -102,5 +123,17 @@ class AddDrug extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  linkto: state.addDrug
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    addDrug: (form) => dispatch(addDrug(form))
+  };
+};
+
+AddDrug = connect(mapStateToProps, mapDispatchToProps)(AddDrug);
 
 export default AddDrug;

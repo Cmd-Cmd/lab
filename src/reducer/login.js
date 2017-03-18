@@ -5,10 +5,7 @@ const initState = {
   change: false,
   infos: {
     ID: '',
-    PW: '',
-    answer: '',
     name: '',
-    question: '',
     'rank_class': '',
     'rank_control': '',
     'rank_course': '',

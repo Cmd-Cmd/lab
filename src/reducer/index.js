@@ -10,6 +10,8 @@ import search from './search';
 import tabling from './tabling';
 import system from './system';
 import changePassword from './changePassword';
+import addDrug from './addDrug';
+import drugDetail from './drugDetail';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -23,6 +25,8 @@ const reducer = combineReducers({
   tabling,
   system,
   changePassword,
+  addDrug,
+  drugDetail,
   reset
 });
 

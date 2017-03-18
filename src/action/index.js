@@ -1,3 +1,50 @@
+export const deleteNewDrugLoc = () => {
+  return {
+    type: 'DELETE_NEW_DRUG_LOC'
+  };
+};
+
+export const newDrugLoc = () => {
+  return {
+    type: 'NEW_DRUG_LOC'
+  };
+};
+
+export const drugLocChange = (e) => {
+  let value = e.target.value;
+  if (e.target.name !== 'position') {
+    value = Number(e.target.value.trim());
+    if (isNaN(value) || value < 0) {
+      value = 0;
+    }
+  }
+  return {
+    type: 'DRUG_LOC_CHANGE',
+    payload: {
+      inx: e.currentTarget.dataset.key,
+      name: e.target.name,
+      value
+    }
+  };
+};
+
+export const drugDetailChange = (e) => {
+  return {
+    type: 'DRUG_DETAIL_CHANGE',
+    payload: {
+      name: e.target.name,
+      value: e.target.value.trim()
+    }
+  };
+};
+
+export const setDrugDetail = (payload) => {
+  return {
+    type: 'SET_DRUG_DETAIL',
+    payload
+  };
+};
+
 export const initReset = () => {
   return {
     type: 'INIT_RESET'
@@ -22,7 +69,7 @@ export const personForm = (e) => {
     type: 'CHANGE_LOGIN_DETAIL',
     payload: {
       name: e.target.name,
-      value: e.target.value
+      value: e.target.value.trim()
     }
   };
 };
