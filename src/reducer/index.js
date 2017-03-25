@@ -12,6 +12,13 @@ import system from './system';
 import changePassword from './changePassword';
 import addDrug from './addDrug';
 import drugDetail from './drugDetail';
+import managerDrug from './managerDrug';
+import drugInOut from './drugInOut';
+import newUser from './newUser';
+import managerUser from './managerUser';
+import managerRank from './managerRank';
+import addMix from './addMix';
+import mixDetail from './mixDetail';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -27,6 +34,13 @@ const reducer = combineReducers({
   changePassword,
   addDrug,
   drugDetail,
+  managerDrug,
+  drugInOut,
+  newUser,
+  managerUser,
+  managerRank,
+  addMix,
+  mixDetail,
   reset
 });
 

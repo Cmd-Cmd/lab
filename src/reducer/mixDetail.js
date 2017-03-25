@@ -3,34 +3,24 @@ import $ from 'jquery';
 import hint from '../hint';
 
 const initState = {
-  drug: '',
+  mix: 'TEST',
   disableBtn: true,
   detail: {
-    CAS: '',
-    counting: '',
-    dangerous: '',
-    details: '',
-    'drug_Englishname': '',
-    'drug_another_name': '',
-    'drug_name': '',
-    'edit_time': '',
-    'fen_zi_liang': '',
-    'fen_zi_shi': '',
-    people: '',
+    'drug_mix': '',
+    attention: '',
     standard: ''
-  },
-  locs: []
+  }
 };
 
-const drugDetail = (state = initState, action) => {
+const mixDetail = (state = initState, action) => {
   let nextState = Object.assign({}, state);
   switch (action.type) {
-    case 'SET_DRUG_DETAIL':
+    case 'SET_MIX_DETAIL':
       nextState = Object.assign({}, initState);
-      nextState.drug = action.payload;
+      nextState.mix = action.payload;
       break;
-    case 'FETCH_GETDRUGDETAIL_START':
-      $('#drugDetailForm')
+    case 'FETCH_GETMIXDETAIL_START':
+      $('#mixDetailForm')
         .append($('<div>')
         .css('margin-left', '-1rem')
         .addClass('loader')
@@ -38,23 +28,23 @@ const drugDetail = (state = initState, action) => {
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       break;
-    case 'FETCH_GETDRUGDETAIL_SUCCESS':
+    case 'FETCH_GETMIXDETAIL_SUCCESS':
       nextState.detail = action.payload;
-      $('#drugDetailForm div.loader').remove();
+      $('#mixDetailForm div.loader').remove();
       break;
-    case 'FETCH_GETDRUGDETAIL_ERROR':
-      $('#drugDetailForm div.loader').remove();
+    case 'FETCH_GETMIXDETAIL_ERROR':
+      $('#mixDetailForm div.loader').remove();
       hint(action.payload);
-      nextState.drug = '';
+      nextState.mix = '';
       break;
-    case 'DRUG_DETAIL_CHANGE':
+    case 'MIX_DETAIL_CHANGE':
       let tempDetail = Object.assign({}, nextState.detail);
       tempDetail[action.payload.name] = action.payload.value;
       nextState.detail = tempDetail;
       nextState.disableBtn = false;
       break;
-    case 'FETCH_UPDATEDRUG_START':
-      $('#drugDetailForm')
+    case 'FETCH_UPDATEMIX_START':
+      $('#mixDetailForm')
         .append($('<div>')
         .css('margin-left', '-1rem')
         .addClass('loader')
@@ -63,12 +53,12 @@ const drugDetail = (state = initState, action) => {
         .append($('<div>'))));
       nextState.disableBtn = true;
       break;
-    case 'FETCH_UPDATEDRUG_SUCCESS':
-      $('#drugDetailForm div.loader').remove();
+    case 'FETCH_UPDATEMIX_SUCCESS':
+      $('#mixDetailForm div.loader').remove();
       hint('修改成功');
       break;
-    case 'FETCH_UPDATEDRUG_ERROR':
-      $('#drugDetailForm div.loader').remove();
+    case 'FETCH_UPDATEMIX_ERROR':
+      $('#mixDetailForm div.loader').remove();
       hint(action.payload);
       nextState.disableBtn = false;
       break;
@@ -189,4 +179,4 @@ const drugDetail = (state = initState, action) => {
   return nextState;
 };
 
-export default drugDetail;
+export default mixDetail;

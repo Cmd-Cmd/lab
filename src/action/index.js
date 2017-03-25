@@ -1,3 +1,51 @@
+export const mixDetailChange = e => {
+  return {
+    type: 'MIX_DETAIL_CHANGE',
+    payload: {
+      name: e.target.name,
+      value: e.target.value.trim()
+    }
+  };
+};
+
+export const setMixDetail = payload => {
+  return {
+    type: 'SET_MIX_DETAIL',
+    payload
+  };
+};
+
+export const changeRankFilter = payload => {
+  return {
+    type: 'CHANGE_RANK_FILTER',
+    payload
+  };
+};
+
+export const changeUserFilter = payload => {
+  return {
+    type: 'CHANGE_USER_FILTER',
+    payload
+  };
+};
+
+export const changeInOutTime = (time, type) => {
+  return {
+    type: 'CHANGE_INOUT_TIME',
+    payload: {
+      time,
+      type
+    }
+  };
+};
+
+export const managerDrugPageTo = payload => {
+  return {
+    type: 'MANAGER_DRUG_PAGE_TO',
+    payload
+  };
+};
+
 export const deleteNewDrugLoc = () => {
   return {
     type: 'DELETE_NEW_DRUG_LOC'
@@ -28,7 +76,7 @@ export const drugLocChange = (e) => {
   };
 };
 
-export const drugDetailChange = (e) => {
+export const drugDetailChange = e => {
   return {
     type: 'DRUG_DETAIL_CHANGE',
     payload: {
@@ -38,7 +86,7 @@ export const drugDetailChange = (e) => {
   };
 };
 
-export const setDrugDetail = (payload) => {
+export const setDrugDetail = payload => {
   return {
     type: 'SET_DRUG_DETAIL',
     payload
@@ -51,20 +99,20 @@ export const initReset = () => {
   };
 };
 
-export const logout = (payload) => {
+export const logout = payload => {
   return {
     type: 'LOGOUT'
   };
 };
 
-export const personChange = (payload) => {
+export const personChange = payload => {
   return {
     type: 'SET_LOGIN_CHANGE',
     payload
   };
 };
 
-export const personForm = (e) => {
+export const personForm = e => {
   return {
     type: 'CHANGE_LOGIN_DETAIL',
     payload: {
@@ -74,28 +122,28 @@ export const personForm = (e) => {
   };
 };
 
-export const changeSystemActive = (payload) => {
+export const changeSystemActive = payload => {
   return {
     type: 'CHANGE_SYSTEM_ACTIVE',
     payload
   };
 };
 
-export const navChangeTo = (payload) => {
+export const navChangeTo = payload => {
   return {
     type: 'CHANGE_NAV',
     payload
   };
 };
 
-export const listingPageTo = (payload) => {
+export const listingPageTo = payload => {
   return {
     type: 'CHANGE_PAGE',
     payload
   };
 };
 
-export const enterListing = (payload) => {
+export const enterListing = payload => {
   return {
     type: 'ENTER_LISTING',
     payload
@@ -108,14 +156,14 @@ export const enterSearch = () => {
   };
 };
 
-export const searchPageTo = (payload) => {
+export const searchPageTo = payload => {
   return {
     type: 'CHANGE_SEARCH_PAGE',
     payload
   };
 };
 
-export const tableViewTime = (payload) => {
+export const tableViewTime = payload => {
   if (payload === 0) {
     return {
       type: 'RESET_TABLEVIEW_TIME'
@@ -127,7 +175,7 @@ export const tableViewTime = (payload) => {
   };
 };
 
-export const tablingTime = (payload) => {
+export const tablingTime = payload => {
   if (payload === 0) {
     return {
       type: 'RESET_TABLING_TIME'

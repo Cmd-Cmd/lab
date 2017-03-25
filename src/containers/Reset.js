@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 import {Container, Progress, Input, Button} from 'amazeui-react';
 import $ from 'jquery';
+
+import hint from '../hint';
 
 import {initReset} from '../action';
 import {getQA, resetByQA} from '../action/fetch';
@@ -10,14 +12,14 @@ import {getQA, resetByQA} from '../action/fetch';
 class Reset extends Component {
   componentWillMount() {
     if (this.props.logined) {
-      alert('您已登录');
-      browserHistory.replace('/');
+      hint('您已登录');
+      hashHistory.replace('/');
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.logined) {
-      browserHistory.replace('/');
+      hashHistory.replace('/');
     }
   }
 
@@ -33,7 +35,7 @@ class Reset extends Component {
         break;
       case 2:
         this.props.initReset();
-        browserHistory.replace('/');
+        hashHistory.replace('/');
         break;
       default:
         return;

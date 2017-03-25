@@ -3,7 +3,7 @@ import {Titlebar, Icon, Sticky,
         ScrollSpy, Form, Input,
         Popover, PopoverTrigger,
         Button, ButtonGroup, Pagination} from 'amazeui-react';
-import {Link, browserHistory} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 import {connect} from 'react-redux';
 
 import './Listing.css';
@@ -15,7 +15,7 @@ class Listing extends Component {
       <Popover placement='right' amSize='sm' amStyle='secondary'>
         <Form inline onSubmit={(e) => {
           e.preventDefault();
-          browserHistory.push('/search');
+          hashHistory.push('/search');
         }}>
           <Input placeholder={'搜索' + this.props.name + '...'}></Input>
         </Form>

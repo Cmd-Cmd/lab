@@ -4,12 +4,12 @@ import hint from '../hint';
 
 const initState = '';
 
-const addDrug = (state = initState, action) => {
+const addMix = (state = initState, action) => {
   switch (action.type) {
     case 'RESET_STATE':
       return state;
-    case 'FETCH_ADDDRUG_START':
-      $('#addDrugForm')
+    case 'FETCH_ADDMIX_START':
+      $('#addMixForm')
         .append($('<div>')
         .css('margin-left', '-1rem')
         .addClass('loader')
@@ -17,13 +17,13 @@ const addDrug = (state = initState, action) => {
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       return state;
-    case 'FETCH_ADDDRUG_SUCCESS':
+    case 'FETCH_ADDMIX_SUCCESS':
       hint('添加成功');
-      $('#addDrugForm').get(0).reset();
-      $('#addDrugForm div.loader').remove();
+      $('#addMixForm').get(0).reset();
+      $('#addMixForm div.loader').remove();
       return action.payload;
-    case 'FETCH_ADDDRUG_ERROR':
-      $('#addDrugForm div.loader').remove();
+    case 'FETCH_ADDMIX_ERROR':
+      $('#addMixForm div.loader').remove();
       hint(action.payload);
       return state;
     default:
@@ -31,4 +31,4 @@ const addDrug = (state = initState, action) => {
   }
 };
 
-export default addDrug;
+export default addMix;

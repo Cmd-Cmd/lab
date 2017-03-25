@@ -1,4 +1,4 @@
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 
 const initState = {
   title: '',
@@ -30,7 +30,7 @@ const essay = (state = initState, action) => {
     case 'FETCH_GETNOTICE_ERROR':
     case 'FETCH_GETTODAY_ERROR':
       nextState = initState;
-      browserHistory.replace('/notFound');
+      hashHistory.replace('/notFound');
       break;
     default:
       return state;

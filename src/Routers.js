@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Router, Route, browserHistory,
+import {Router, Route, hashHistory,
         IndexRoute, IndexRedirect} from 'react-router';
 import {connect} from 'react-redux';
 
@@ -19,15 +19,21 @@ import System from './containers/system';
 import Person from './containers/system/personal/Person';
 import ChangePassword from './containers/system/personal/ChangePassword';
 import NewUser from './containers/system/admin/NewUser';
+import ManagerUser from './containers/system/admin/ManagerUser';
+import ManagerRank from './containers/system/admin/ManagerRank';
 import AddDrug from './containers/system/drug/AddDrug';
 import DrugDetail from './containers/system/drug/DrugDetail';
+import ManagerDrug from './containers/system/drug/ManagerDrug';
+import DrugInOut from './containers/system/drug/DrugInOut';
+import AddMix from './containers/system/mix/AddMix';
+import MixDetail from './containers/system/mix/MixDeail';
 import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
 class Routers extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
+      <Router history={hashHistory}>
         <Route path='/' component={App} onEnter={(ns, rp, cb) => {
           if (!localStorage.id || !localStorage.token) {
             cb();
@@ -86,10 +92,22 @@ class Routers extends Component {
             <Route path='/system/newUser' component={NewUser} onEnter={() => {
               this.props.changeSystemActive(1);
             }}></Route>
+            <Route path='/system/userInfoList' component={ManagerUser}
+                   onEnter={() => this.props.changeSystemActive(1)}></Route>
+            <Route path='/system/userRankList' component={ManagerRank}
+                  onEnter={() => this.props.changeSystemActive(1)}></Route>
             <Route path='/system/addDrug' component={AddDrug}
-                   onenter={() => this.props.changeSystemActive(2)}></Route>
+                   onEnter={() => this.props.changeSystemActive(2)}></Route>
             <Route path='/system/drugDetail' component={DrugDetail}
-                   onenter={() => this.props.changeSystemActive(2)}></Route>
+                   onEnter={() => this.props.changeSystemActive(2)}></Route>
+            <Route path='/system/managerDrug' component={ManagerDrug}
+                   onEnter={() => this.props.changeSystemActive(2)}></Route>
+            <Route path='/system/drugInOut' component={DrugInOut}
+                   onEnter={() => this.props.changeSystemActive(2)}></Route>
+            <Route path='/system/addMix' component={AddMix}
+                   onEnter={() => this.props.changeSystemActive(3)}></Route>
+            <Route path='/system/mixDetail' component={MixDetail}
+                   onEnter={() => this.props.changeSystemActive(3)}></Route>
           </Route>
           <Route path='/reset' component={Reset} onEnter={() => {
             this.props.navEnter('重置');

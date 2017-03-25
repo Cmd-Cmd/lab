@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Modal, ModalTrigger,
         Grid, Col, Input, Icon} from 'amazeui-react';
 import {connect} from 'react-redux';
+import {hashHistory} from 'react-router';
 import $ from 'jquery';
 
 import {login} from '../../action/fetch';
@@ -46,7 +47,10 @@ class LoginButton extends Component {
             </Col>
             <Col sm={12}>
               <Button amStyle='success' block type='submit'>登录</Button>
-              <Button amStyle='link'><a href='/reset'>找回密码</a></Button>
+              <Button amStyle='link' onClick={() => {
+                $('#loginModal .am-close').click();
+                hashHistory.push('/reset');
+              }}>找回密码</Button>
             </Col>
           </Grid>
         </form>

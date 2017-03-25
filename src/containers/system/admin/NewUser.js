@@ -1,121 +1,200 @@
 import React, {Component} from 'react';
-import {Form, Input, Grid, Col, Button, Icon} from 'amazeui-react';
+import {Form, Input, Grid, Col, Button, Table, UCheck} from 'amazeui-react';
+import {connect} from 'react-redux';
 import $ from 'jquery';
 
-class NewUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      change: false
-    };
-  }
+import './NewUser.css';
+import {newUser} from '../../../action/fetch';
 
-  changeInfo(e) {
+class NewUser extends Component {
+  handleSubmit(e) {
     e.preventDefault();
-    if (this.state.change) {
-      console.log($('#personForm').serializeArray());
-    }
-    this.setState((prevState, props) => ({
-      change: !prevState.change
-    }));
+    let temp = {};
+    $($('#newUserForm').serializeArray()).each((inx, ele) => {
+      temp[ele.name] = ele.value;
+    });
+    this.props.newUser(temp);
   }
 
   render() {
     return (
-      <div>
+      <div style={{position: 'relative'}}>
         <div className='systemTitle'>
           创建新用户
         </div>
         <hr></hr>
-        <Form id='newUserForm'>
+        <Form id='newUserForm' onSubmit={e => this.handleSubmit(e)}>
           <Grid>
             <Col sm={12} md={2}>
               <div className='input-name'>
-                姓名&nbsp;
-                <small>
-                  <Icon icon='asterisk' className='am-text-danger'/>
-                </small>
+                姓名
               </div>
             </Col>
             <Col sm={12} md={4}>
-              <Input name='name' />
+              <Input name='name' required />
             </Col>
             <Col sm={12} md={2}>
               <div className='input-name'>
-                学号/工号&nbsp;
-                <small>
-                  <Icon icon='asterisk' className='am-text-danger'/>
-                </small>
+                学号/工号
               </div>
             </Col>
             <Col sm={12} md={4}>
-              <Input name='id' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                密码&nbsp;
-                <small>
-                  <Icon icon='asterisk' className='am-text-danger'/>
-                </small>
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='password' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                邮件
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='email' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                密码找回问题
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='question' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                问题答案
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='answer' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                长号
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='phoneLong' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                短号
-              </div>
-            </Col>
-            <Col sm={12} md={4}>
-              <Input name='phoneShort' />
-            </Col>
-            <Col sm={12} md={2}>
-              <div className='input-name'>
-                联系地址
-              </div>
-            </Col>
-            <Col sm={12} md={10}>
-              <Input name='address' />
+              <Input name='find_id' required />
             </Col>
             <Col sm={12}>
-              <small>
-                <Icon icon='asterisk' className='am-text-danger'/>
-                &nbsp;为必填项
+              <Table bordered compact responsive id='newUserTable'>
+                <thead>
+                  <tr>
+                    <th className='am-text-primary'>权限表</th>
+                    <th>管理权限</th>
+                    <th>一般权限</th>
+                    <th>无权限</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>用户管理权限</th>
+                    <td>
+                      <UCheck name='rank_control' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_control' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_control' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>新闻管理权限</th>
+                    <td>
+                      <UCheck name='rank_news' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_news' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_news' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>药品管理权限</th>
+                    <td>
+                      <UCheck name='rank_drug' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_drug' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_drug' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>仪器管理权限</th>
+                    <td>
+                      <UCheck name='rank_equipment' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_equipment' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_equipment' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>实验管理权限</th>
+                    <td>
+                      <UCheck name='rank_experment' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_experment' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_experment' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>课程管理权限</th>
+                    <td>
+                      <UCheck name='rank_course' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_course' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_course' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>班级管理权限</th>
+                    <td>
+                      <UCheck name='rank_class' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_class' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_class' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>学生管理权限</th>
+                    <td>
+                      <UCheck name='rank_student' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_student' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_student' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>开放性实验管理权限</th>
+                    <td>
+                      <UCheck name='rank_open' type='radio' value='管理权限'
+                              amStyle='danger' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_open' type='radio' value='一般权限'
+                              amStyle='warning' />
+                    </td>
+                    <td>
+                      <UCheck name='rank_open' type='radio' value='无权限'
+                              defaultChecked />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Col>
+            <Col sm={12}>
+              <small className='am-text-danger'>
+                新用户初始密码与学号/工号一致
               </small>
-              <Button amStyle='success' block>确认更改</Button>
+              <Button amStyle='success' type='submit' block>创建新用户</Button>
             </Col>
           </Grid>
         </Form>
@@ -123,5 +202,17 @@ class NewUser extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  linkto: state.newUser
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    newUser: form => dispatch(newUser(form))
+  };
+};
+
+NewUser = connect(mapStateToProps, mapDispatchToProps)(NewUser);
 
 export default NewUser;

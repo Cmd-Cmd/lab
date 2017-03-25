@@ -1,6 +1,6 @@
 import {cont, api} from './exampleData';
 import {personChange} from './index';
-import {setDrugDetail} from './index';
+import {setDrugDetail, setMixDetail} from './index';
 
 const fetchStart = (op, payload = {}) => {
   return {
@@ -32,6 +32,363 @@ const fetchTemplete = (type, form) => {
     },
     body: 'json=' + escape(JSON.stringify(form))
   });
+};
+
+export const getMixDetail = mix => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETMIXDETAIL'));
+    const temp = {
+      type: 'GetDrugMixByName',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETMIXDETAIL', data.data[0]));
+          } else {
+            dispatch(fetchError('GETMIXDETAIL',
+                                `获取药品详情失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETMIXDETAIL',
+                            `获取药品详情失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDRUGDETAIL', `获取药品详情失败: ${e}`)));
+  };
+};
+
+export const getMixStruct = mix => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETMIXSTRUCT'));
+    const temp = {
+      type: 'GetDrugMix_Struct',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETMIXSTRUCT', data.data));
+          } else {
+            dispatch(fetchError('GETMIXSTRUCT',
+                                `获取试剂配方失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETMIXSTRUCT',
+                            `获取试剂配方失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETMIXSTRUCT', `获取试剂配方失败: ${e}`)));
+  };
+};
+
+export const mixUpdate = form => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATEMIX'));
+    const drugMix = 'drug_mix';
+    const temp = {
+      type: 'DrugMix_Insert_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix: form[drugMix],
+      'mix_old': getState().mixDetail.mix,
+      ...form
+    };
+    delete temp[drugMix];
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATEMIX'));
+            dispatch(setMixDetail(form[drugMix]));
+            dispatch(getMixDetail(form[drugMix]));
+            dispatch(getMixStruct(form[drugMix]));
+          } else {
+            dispatch(fetchError('UPDATEMIX', `修改信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATEMIX', `修改信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATEMIX', `修改信息失败: ${e}`)));
+  };
+};
+
+export const addMix = form => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('ADDMIX'));
+    const temp = {
+      type: 'DrugMix_Insert_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ...form,
+      'mix_old': '-1',
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(setMixDetail(form.mix));
+            dispatch(fetchSuccess('ADDMIX', form.mix));
+          } else {
+            dispatch(fetchError('ADDMIX', `新增试剂失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('ADDMIX', `新增试剂失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('ADDMIX', `新增试剂失败: ${e}`)));
+  };
+};
+
+export const getAllRanks = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_ALL_RANKS'));
+    const temp = {
+      type: 'GetRankAll',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_ALL_RANKS', data.data));
+          } else {
+            dispatch(fetchError('GET_ALL_RANKS',
+                                `获取用户权限信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_ALL_RANKS',
+                            `获取用户权限信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_ALL_RANKS', `获取用户权限信息失败: ${e}`)));
+  };
+};
+
+export const getAllUsers = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_ALL_USERS'));
+    const temp = {
+      type: 'GetInfoAll',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_ALL_USERS', data.data));
+          } else {
+            dispatch(fetchError('GET_ALL_USERS',
+                                `获取用户基本信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_ALL_USERS',
+                            `获取用户基本信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_ALL_USERS', `获取用户基本信息失败: ${e}`)));
+  };
+};
+
+export const updateRank = form => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATE_RANK'));
+    form.type = 'Rank_UpdateAll';
+    form.id = getState().login.infos.ID;
+    form.pw = getState().login.infos.token;
+    fetchTemplete('LoginHandler', form).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATE_RANK'));
+            dispatch(getAllRanks());
+          } else {
+            dispatch(fetchError('UPDATE_RANK',
+                                `修改用户权限失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATE_RANK',
+                            `修改用户权限失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATE_RANK', `修改用户权限失败: ${e}`)));
+  };
+};
+
+export const deleteUser = inx => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('RESET_USER'));
+    const user = getState().managerUser.users[inx];
+    const temp = {
+      type: 'Rank_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'find_id': user.ID
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('DELETE_USER', inx));
+            dispatch(getAllUsers());
+          } else {
+            dispatch(fetchError('DELETE_USER',
+                                `删除用户失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('DELETE_USER',
+                            `删除用户失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('DELETE_USER', `删除用户失败: ${e}`)));
+  };
+};
+
+export const resetUser = inx => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('RESET_USER'));
+    const user = getState().managerUser.users[inx];
+    const temp = {
+      type: 'ResetPWQAByID',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'find_id': user.ID
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('RESET_USER'));
+          } else {
+            dispatch(fetchError('RESET_USER',
+                                `重置用户失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('RESET_USER',
+                            `重置用户失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('RESET_USER', `重置用户失败: ${e}`)));
+  };
+};
+
+export const newUser = form => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('NEWUSER'));
+    const temp = {
+      type: 'Rank_Insert',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ...form
+    };
+    fetchTemplete('LoginHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('NEWUSER', form.name));
+          } else {
+            dispatch(fetchError('NEWUSER', `新建用户失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('NEWUSER', `新建用户失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('NEWUSER', `新建用户失败: ${e}`)));
+  };
+};
+
+export const getDrugInOut = drug => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETDRUGINOUT'));
+    const temp = {
+      type: 'GetDrugInOutByName',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().drugInOut.startTime,
+      to: getState().drugInOut.endTime,
+      drug
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETDRUGINOUT', data.data));
+          } else {
+            dispatch(fetchError('GETDRUGINOUT',
+                                `获取出入库信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETDRUGINOUT',
+                            `获取出入库信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDRUGINOUT', `获取出入库信息失败: ${e}`)));
+  };
+};
+
+export const managerDeleteDrug = inx => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('MANAGERDELETEDRUG'));
+    const drug = getState().managerDrug.drugs[inx];
+    const drugName = 'drug_name';
+    const temp = {
+      type: 'Drug_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      drug: drug[drugName]
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('MANAGERDELETEDRUG', inx));
+          } else {
+            dispatch(fetchError('MANAGERDELETEDRUG',
+                                `删除药品失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('MANAGERDELETEDRUG',
+                            `删除药品失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('MANAGERDELETEDRUG', `删除药品失败: ${e}`)));
+  };
+};
+
+export const getDrug = (drug) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETDRUG'));
+    const temp = {
+      type: 'GetDrug',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      drug
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETDRUG', data.data));
+          } else {
+            dispatch(fetchError('GETDRUG',
+            `获取药品失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETDRUG',
+                            `获取药品失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDRUG', `获取药品失败: ${e}`)));
+  };
 };
 
 export const getDrugLoc = (drug) => {
@@ -191,6 +548,7 @@ export const drugUpdate = form => {
         res.json().then(data => {
           if (data.error === '0') {
             dispatch(fetchSuccess('UPDATEDRUG'));
+            dispatch(setDrugDetail(form[drugName]));
             dispatch(getDrugDetail(form[drugName]));
             dispatch(getDrugLoc(form[drugName]));
           } else {

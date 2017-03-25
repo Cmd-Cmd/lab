@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Input, Grid, Col, Button} from 'amazeui-react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 
 import {personForm, personChange, logout} from '../../../action';
 import {getPerson, personUpdate} from '../../../action/fetch';
@@ -146,7 +146,7 @@ class Person extends Component {
                 <Col sm={12}>
                   <Button amStyle='danger' block onClick={() => {
                     this.props.logout();
-                    browserHistory.push('/');
+                    hashHistory.push('/');
                   }}>
                     注销
                   </Button>

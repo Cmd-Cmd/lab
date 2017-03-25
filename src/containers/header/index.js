@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Topbar, CollapsibleNav, Nav,
         Input, Button, Icon, Form} from 'amazeui-react';
-import {IndexLink, Link, browserHistory} from 'react-router';
+import {IndexLink, Link, hashHistory} from 'react-router';
 
 import LoginButton from './LoginButton';
 import './Header.css';
@@ -31,7 +31,7 @@ class Header extends Component {
         <div className='am-fr am-margin-top-lg'>
           <Form inline onSubmit={(e) => {
             e.preventDefault();
-            browserHistory.push('/search');
+            hashHistory.push('/search');
           }}>
             <Input type='text' btnBefore={btnSearch} placeholder='搜索'></Input>
           </Form>

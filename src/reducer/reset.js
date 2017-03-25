@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+import hint from '../hint';
+
 const initState = {
   step: 0,
   question: '',
@@ -23,7 +25,7 @@ const reset = (state = initState, action) => {
       $('#Reset div.loader').remove();
       break;
     case 'FETCH_GETQA_ERROR':
-      alert(action.payload);
+      hint(action.payload);
       $('#Reset div.loader').remove();
       break;
     case 'FETCH_RESETBYQA_START':
@@ -40,7 +42,7 @@ const reset = (state = initState, action) => {
       $('#Reset div.loader').remove();
       break;
     case 'FETCH_RESETBYQA_ERROR':
-      alert(action.payload);
+      hint(action.payload);
       $('#Reset div.loader').remove();
       break;
     case 'INIT_RESET':

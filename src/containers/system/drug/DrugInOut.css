@@ -1,0 +1,8 @@
+#DrugInOut {
+  min-height: 400px;
+}
+@media only screen and (max-width: 640px) {
+  .am-datepicker {
+    left: 0 !important;
+  }
+}

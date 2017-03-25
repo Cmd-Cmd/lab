@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon, Sticky, Button, Form, Input, DateTimePicker} from 'amazeui-react';
+import {Icon, Button, Form, Input, DateTimePicker} from 'amazeui-react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {Table, Column, Cell} from 'fixed-data-table';
@@ -80,12 +80,10 @@ class Tabling extends Component {
     );
     return (
       <div id='tabling'>
-        <Sticky>
-          <Form>
-            <Input btnBefore={searchBtn} btnAfter={dataBtn} />
-          </Form>
-        </Sticky>
-        <Table rowHeight={40} headerHeight={50} height={700}
+        <Form>
+          <Input btnBefore={searchBtn} btnAfter={dataBtn} />
+        </Form>
+        <Table rowHeight={40} headerHeight={50} height={800}
                rowsCount={data.length}
                width={this.state.tableWidth}>
           <Column width={120} header={<Cell>时间</Cell>} fixed

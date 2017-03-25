@@ -1,3 +1,5 @@
+import hint from '../hint';
+
 const initState = {
   asyncTimes: 0,
   password: false,
@@ -50,7 +52,7 @@ const changePassword = (state = initState, action) => {
     }
     words += '请重新登录!';
     nextState.logout = true;
-    alert(words);
+    hint(words);
   }
   return nextState;
 };

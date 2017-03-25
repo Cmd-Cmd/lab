@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+import hint from '../hint';
+
 const initState = {
   logined: false,
   change: false,
@@ -86,7 +88,7 @@ const login = (state = initState, action) => {
       break;
     case 'FETCH_GETPERSON_ERROR':
       $('#personForm div.loader').remove();
-      alert('获取用户信息失败');
+      hint('获取用户信息失败');
       break;
     case 'CHANGE_LOGIN_DETAIL':
       let temp = Object.assign({}, nextState.detail);
@@ -110,7 +112,7 @@ const login = (state = initState, action) => {
       break;
     case 'FETCH_UPDATEPERSON_ERROR':
       $('#personForm div.loader').remove();
-      alert(action.payload);
+      hint(action.payload);
       break;
     case 'LOGOUT':
       localStorage.removeItem('id');

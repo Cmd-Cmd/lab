@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {Tabs, Input, Grid, Col, Button, Icon, ButtonGroup,
         Modal, ModalTrigger} from 'amazeui-react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 import $ from 'jquery';
+
+import hint from '../../../hint';
 
 import {setDrugDetail, drugDetailChange, drugLocChange,
         newDrugLoc, deleteNewDrugLoc} from '../../../action';
@@ -13,8 +15,8 @@ import {getDrugDetail, drugUpdate, deleteDrug,
 class DrugDetail extends Component {
   componentDidMount() {
     if (this.props.drugName === '') {
-      alert('请先选择药品');
-      browserHistory.replace('/');
+      hint('请先选择药品');
+      hashHistory.replace('/system/managerDrug');
     } else {
       this.props.getDrugDetail(this.props.drugName);
       this.props.getDrugLoc(this.props.drugName);
@@ -23,7 +25,7 @@ class DrugDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.drugName === '') {
-      browserHistory.replace('/');
+      hashHistory.replace('/system/managerDrug');
     }
   }
 
@@ -54,7 +56,6 @@ class DrugDetail extends Component {
   handleDelete(e) {
     if (e.target.tagName.toLowerCase() !== 'button' ||
         e.target.name !== 'deleteLoc') {
-      console.log(false);
       return;
     }
     if (e.currentTarget.name === '-1') {
@@ -88,7 +89,8 @@ class DrugDetail extends Component {
     return (
       <div>
         <div className='systemTitle'>
-          药品详情 - {this.props.drugName}
+          药品详情<br />
+          <small>{this.props.drugName}</small>
         </div>
         <hr></hr>
         <Grid>
@@ -233,8 +235,8 @@ class DrugDetail extends Component {
                                  onChange={() => {return; }}/>
                         </Col>
                         <Col sm={12} md={4}>
-                          <Input addonBefore='零散' addonAfter='ml' type='number'
-                                 value={ele.remain} name='remain'
+                          <Input addonBefore='零散' addonAfter={ele.standard}
+                                 value={ele.remain} name='remain' type='number'
                                  onChange={() => {return; }}/>
                         </Col>
                         <Col sm={12} md={4}>

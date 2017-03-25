@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
 import {Grid, Sticky} from 'amazeui-react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 
 import Sidebar from '../../components/system/Sidebar';
 import './System.css';
+import hint from '../../hint';
+
 import {changeSystemActive} from '../../action';
 
 class System extends Component {
   componentWillMount() {
     if (!this.props.logined) {
-      alert('请先登录');
-      browserHistory.replace('/');
+      hint('请先登录');
+      hashHistory.replace('/');
     }
   }
 

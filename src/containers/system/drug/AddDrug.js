@@ -130,7 +130,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addDrug: (form) => dispatch(addDrug(form))
+    addDrug: form => dispatch(addDrug(form))
   };
 };
 

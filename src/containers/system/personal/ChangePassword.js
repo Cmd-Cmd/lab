@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input, Grid, Col, Button, Icon} from 'amazeui-react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 import $ from 'jquery';
 
 import {changePassword, changeQuestion} from '../../../action/fetch';
@@ -25,9 +25,9 @@ class ChangePassword extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.logout) {
+    if (nextProps.logoutState) {
       this.props.logout();
-      browserHistory.push('/');
+      hashHistory.push('/');
     }
   }
 
@@ -162,7 +162,7 @@ class ChangePassword extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  logout: state.changePassword.logout
+  logoutState: state.changePassword.logout
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
