@@ -3,14 +3,23 @@ import $ from 'jquery';
 import hint from '../hint';
 
 const initState = {
-  mix: 'TEST',
+  mix: '',
   disableBtn: true,
   detail: {
     'drug_mix': '',
     attention: '',
     standard: ''
-  }
+  },
+  struct: {
+    drug: [],
+    'mix_add': []
+  },
+  drugSearch: [],
+  mixSearch: []
 };
+
+const drugName = 'drug_name';
+const mixAdd = 'mix_add';
 
 const mixDetail = (state = initState, action) => {
   let nextState = Object.assign({}, state);
@@ -62,8 +71,8 @@ const mixDetail = (state = initState, action) => {
       hint(action.payload);
       nextState.disableBtn = false;
       break;
-    case 'FETCH_GETDRUGLOC_START':
-      $('#drugLocForms')
+    case 'FETCH_DELETEMIX_START':
+      $('#MixDetail')
         .append($('<div>')
         .css('margin-left', '-1rem')
         .addClass('loader')
@@ -71,107 +80,107 @@ const mixDetail = (state = initState, action) => {
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       break;
-    case 'FETCH_GETDRUGLOC_SUCCESS':
-      nextState.locs = action.payload;
-      $('#drugLocForms div.loader').remove();
+    case 'FETCH_DELETEMIX_SUCCESS':
+      hint('删除成功');
+      nextState.mix = '';
+      $('#MixDetail div.loader').remove();
       break;
-    case 'FETCH_GETDRUGLOC_ERROR':
+    case 'FETCH_DELETEMIX_ERROR':
+      hint(action.payload);
+      $('#MixDetail div.loader').remove();
+      break;
+    case 'FETCH_GETMIXSTRUCT_START':
+      $('#mixStructGrid')
+        .append($('<div>')
+        .addClass('loader')
+        .append($('<div>')
+        .addClass('loader-inner square-spin')
+        .append($('<div>'))));
+      break;
+    case 'FETCH_GETMIXSTRUCT_SUCCESS':
+      nextState.struct = {
+        drug: [],
+        'mix_add': []
+      };
+      for (let i = 0; i < action.payload.length; i++) {
+        nextState.struct.drug.push({
+          drug: (action.payload[i])[drugName],
+          num: action.payload[i].num,
+          standard: action.payload[i].standard
+        });
+      }
+      $('#mixStructGrid div.loader').remove();
+      break;
+    case 'FETCH_GETMIXSTRUCT_ERROR':
       hint(action.payload);
       nextState.drug = '';
-      $('#drugLocForms div.loader').remove();
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'DRUG_LOC_CHANGE':
-      let tempLoc = nextState.locs.slice(0);
-      tempLoc[action.payload.inx][action.payload.name] = action.payload.value;
-      nextState.locs = tempLoc;
-      break;
-    case 'FETCH_UPDATEDRUG_LOC_START':
-      $('#drugLocForms')
+    case 'FETCH_MIX_DRUG_SEARCH_START':
+      $('#mixStructGrid')
         .append($('<div>')
-        .css('margin-left', '-1rem')
         .addClass('loader')
         .append($('<div>')
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       break;
-    case 'FETCH_UPDATEDRUG_LOC_SUCCESS':
-      hint('修改成功');
-      $('#drugLocForms div.loader').remove();
+    case 'FETCH_MIX_DRUG_SEARCH_SUCCESS':
+      nextState.drugSearch = action.payload;
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'FETCH_UPDATEDRUG_LOC_ERROR':
+    case 'FETCH_MIX_DRUG_SEARCH_ERROR':
       hint(action.payload);
-      $('#drugLocForms div.loader').remove();
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'FETCH_DELETEDRUG_START':
-      $('#DrugDetail')
+    case 'FETCH_MIX_MIX_SEARCH_START':
+      $('#mixStructGrid')
         .append($('<div>')
-        .css('margin-left', '-1rem')
         .addClass('loader')
         .append($('<div>')
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       break;
-    case 'FETCH_DELETEDRUG_SUCCESS':
-      hint('删除成功');
-      nextState.drug = '';
-      $('#DrugDetail div.loader').remove();
+    case 'FETCH_MIX_MIX_SEARCH_SUCCESS':
+      nextState.mixSearch = action.payload;
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'FETCH_DELETEDRUG_ERROR':
+    case 'FETCH_MIX_MIX_SEARCH_ERROR':
       hint(action.payload);
-      $('#DrugDetail div.loader').remove();
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'NEW_DRUG_LOC':
-      let newLocFlag = false;
-      for (var i = 0; i < nextState.locs.length; i++) {
-        if (nextState.locs[i].id === -1) {
-          newLocFlag = true;
-          break;
-        }
+    case 'ADD_TO_STRUCT':
+      let tempAdd = Object.assign({}, nextState.struct);
+      if (action.flag) {
+        tempAdd.drug.push(action.payload);
+      } else {
+        tempAdd[mixAdd].push(action.payload);
       }
-      if (newLocFlag) {
-        hint('请先保存之前新增的位置信息');
-        break;
-      }
-      let newLoc = nextState.locs.slice(0);
-      newLoc.push({
-        id: -1,
-        position: '请输入存放位置',
-        people: '自己',
-        counting: 0,
-        remain: 0,
-        each: 0,
-        standard: nextState.detail.standard,
-        'drug_name': nextState.drug,
-        'edit_time': (new Date()).toLocaleString()
-      });
-      nextState.locs = newLoc;
+      nextState.struct = tempAdd;
       break;
-    case 'DELETE_NEW_DRUG_LOC':
-      let tempLocs = nextState.locs.slice(0);
-      for (var j = 0; j < tempLocs.length; j++) {
-        if (tempLocs[j].id === -1) {
-          tempLocs.splice(j, 1);
-          break;
-        }
+    case 'DELETE_STRUCT':
+      let tempDel = Object.assign({}, nextState.struct);
+      if (action.flag) {
+        tempDel.drug.splice(action.payload, 1);
+      } else {
+        tempDel[mixAdd].splice(action.payload, 1);
       }
-      nextState.locs = tempLocs;
+      nextState.struct = tempDel;
       break;
-    case 'FETCH_DELETEDRUG_LOC_START':
-      $('#drugLocForms')
+    case 'FETCH_UPDATE_STRUCT_START':
+      $('#mixStructGrid')
         .append($('<div>')
-        .css('margin-left', '-1rem')
         .addClass('loader')
         .append($('<div>')
         .addClass('loader-inner square-spin')
         .append($('<div>'))));
       break;
-    case 'FETCH_DELETEDRUG_LOC_SUCCESS':
-      hint('删除成功');
-      $('#drugLocForms div.loader').remove();
+    case 'FETCH_UPDATE_STRUCT_SUCCESS':
+      hint('修改已保存');
+      $('#mixStructGrid div.loader').remove();
       break;
-    case 'FETCH_DELETEDRUG_LOC_ERROR':
+    case 'FETCH_UPDATE_STRUCT_ERROR':
       hint(action.payload);
-      $('#drugLocForms div.loader').remove();
+      $('#mixStructGrid div.loader').remove();
       break;
     default:
       return state;

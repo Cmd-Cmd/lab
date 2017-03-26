@@ -21,7 +21,6 @@ class ManagerDrug extends Component {
       tempDeleteName: ''
     };
   }
-
   handleSubmit(e) {
     e.preventDefault();
     this.props.getDrug(e.target.drug.value);
@@ -64,10 +63,6 @@ class ManagerDrug extends Component {
     }
     return (
       <div id='ManagerDrug' style={{position: 'relative'}}>
-        <div className='systemTitle'>
-          药品信息管理
-        </div>
-        <hr></hr>
         <Sticky>
           <form onSubmit={e => this.handleSubmit(e)}>
             <Input amStyle='success' placeholder='搜索药品...' name='drug'

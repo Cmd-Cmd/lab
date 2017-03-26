@@ -1,3 +1,26 @@
+export const managerMixPageTo = payload => {
+  return {
+    type: 'MANAGER_MIX_PAGE_TO',
+    payload
+  };
+};
+
+export const deleteStruct = (flag, payload) => {
+  return {
+    type: 'DELETE_STRUCT',
+    flag,
+    payload
+  };
+};
+
+export const addToStruct = (flag, payload) => {
+  return {
+    type: 'ADD_TO_STRUCT',
+    flag,
+    payload
+  };
+};
+
 export const mixDetailChange = e => {
   return {
     type: 'MIX_DETAIL_CHANGE',

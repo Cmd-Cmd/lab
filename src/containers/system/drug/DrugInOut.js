@@ -24,6 +24,10 @@ class DrugInOut extends Component {
     const drugName = 'drug_name';
     return (
       <div id='DrugInOut' style={{position: 'relative'}}>
+        <div className='systemTitle'>
+          药品出入库记录
+        </div>
+        <hr></hr>
         <form onSubmit={e => this.handleSubmit(e)}>
           <Sticky>
             <div>

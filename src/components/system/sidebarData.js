@@ -26,7 +26,7 @@ export const sidebarData = [
     name: '试剂库',
     links: [
       {name: '新增试剂', to: '/system/addMix'},
-      {name: '试剂信息管理', to: '/ManagerReagent'}
+      {name: '试剂信息管理', to: '/system/managerMix'}
     ]
   },
   {

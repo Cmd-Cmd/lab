@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Input, Icon, Button, Table, Sticky, Pagination,
-        ModalTrigger, Modal} from 'amazeui-react';
-import {connect} from 'react-redux';
+import {Sticky, Button, Icon, Input, Table,
+        ModalTrigger, Modal, Pagination} from 'amazeui-react';
 import {hashHistory} from 'react-router';
+import {connect} from 'react-redux';
 
-import {getDrug, managerDeleteDrug} from '../../../action/fetch';
-import {managerDrugPageTo, setDrugDetail} from '../../../action';
+import {getMix, managerDeleteMix} from '../../../action/fetch';
+import {setMixDetail, managerMixPageTo} from '../../../action';
 
 const searchBtn = (
   <Button amStyle='success' type='submit'>
@@ -13,7 +13,7 @@ const searchBtn = (
   </Button>
 );
 
-class ManagerDrug extends Component {
+class ManagerMix extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,36 +24,34 @@ class ManagerDrug extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.getDrug(e.target.drug.value);
+    this.props.getMix(e.target.mix.value);
   }
 
   handleEdit(e) {
     if (e.currentTarget.tagName.toLowerCase() !== 'button') {
       return;
     }
-    this.props.setDrugDetail(e.currentTarget.name);
-    hashHistory.push('/system/drugDetail');
+    this.props.setMixDetail(e.currentTarget.name);
+    hashHistory.push('/system/mixDetail');
   }
 
   handleDelete(e) {
     if (e.currentTarget.tagName.toLowerCase() !== 'button') {
       return;
     }
-    const drugName = 'drug_name';
+    const drugMix = 'drug_mix';
     this.setState({
       tempDeleteInx: Number(e.currentTarget.name),
-      tempDeleteName: this.props.drugs[Number(e.currentTarget.name)][drugName]
+      tempDeleteName: this.props.mixs[Number(e.currentTarget.name)][drugMix]
     });
   }
 
   handleTest() {
-    this.props.deleteDrug(this.state.tempDeleteInx);
+    this.props.deleteMix(this.state.tempDeleteInx);
   }
 
   render() {
-    const drugName = 'drug_name';
-    const drugAnotherName = 'drug_another_name';
-    const fenZiShi = 'fen_zi_shi';
+    const drugMix = 'drug_mix';
     let pageArr = [];
     let temp = (this.props.pageNow - 2 < 0) ? 0 : this.props.pageNow - 2;
     for (let i = temp; i < temp + 4 && i <= this.props.pageAll; i++) {
@@ -63,41 +61,37 @@ class ManagerDrug extends Component {
       pageArr.unshift(pageArr[0] - 1);
     }
     return (
-      <div id='ManagerDrug' style={{position: 'relative'}}>
+      <div id='ManagerMix' style={{position: 'relative'}}>
         <div className='systemTitle'>
-          药品信息管理
+          试剂信息管理
         </div>
         <hr></hr>
         <Sticky>
           <form onSubmit={e => this.handleSubmit(e)}>
-            <Input amStyle='success' placeholder='搜索药品...' name='drug'
+            <Input amStyle='success' placeholder='搜索药品...' name='mix'
                    btnAfter={searchBtn} />
           </form>
         </Sticky>
         <Table hover responsive className='am-margin-top'>
           <thead>
             <tr>
-              <th>药品名</th>
-              <th>药品别名</th>
-              <th>分子式</th>
-              <th>剩余存量</th>
+              <th>试剂名</th>
               <th>单位</th>
+              <th>注意事项</th>
               <th style={{width: '150px'}}>操作</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.props.drugs.map((ele, inx) => {
+              this.props.mixs.map((ele, inx) => {
                 return (
                   <tr key={inx}>
-                    <td>{ele[drugName]}</td>
-                    <td>{ele[drugAnotherName]}</td>
-                    <td>{ele[fenZiShi]}</td>
-                    <td>{ele.counting}</td>
+                    <td>{ele[drugMix]}</td>
                     <td>{ele.standard}</td>
+                    <td>{ele.attention}</td>
                     <td>
                       <Button amStyle='secondary' amSize='xs'
-                              name={ele[drugName]}
+                              name={ele[drugMix]}
                               onClick={e => this.handleEdit(e)}>
                         <Icon icon='edit'> 编辑</Icon>
                       </Button>
@@ -151,20 +145,20 @@ class ManagerDrug extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  drugs: state.managerDrug.drugs,
-  pageNow: state.managerDrug.pageNow,
-  pageAll: state.managerDrug.pageAll
+  mixs: state.managerMix.mixs,
+  pageNow: state.managerMix.pageNow,
+  pageAll: state.managerMix.pageAll
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getDrug: drug => dispatch(getDrug(drug)),
-    changePage: page => dispatch(managerDrugPageTo(page)),
-    setDrugDetail: drug => dispatch(setDrugDetail(drug)),
-    deleteDrug: drug => dispatch(managerDeleteDrug(drug))
+    getMix: mix => dispatch(getMix(mix)),
+    setMixDetail: mix => dispatch(setMixDetail(mix)),
+    deleteMix: mix => dispatch(managerDeleteMix(mix)),
+    changePage: page => dispatch(managerMixPageTo(page))
   };
 };
 
-ManagerDrug = connect(mapStateToProps, mapDispatchToProps)(ManagerDrug);
+ManagerMix = connect(mapStateToProps, mapDispatchToProps)(ManagerMix);
 
-export default ManagerDrug;
+export default ManagerMix;

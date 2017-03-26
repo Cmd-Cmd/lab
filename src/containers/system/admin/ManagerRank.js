@@ -158,6 +158,10 @@ class ManagerRank extends Component {
     );
     return (
       <div id='ManagerRank' style={{position: 'relative'}}>
+        <div className='systemTitle'>
+          用户权限管理
+        </div>
+        <hr></hr>
         <Sticky>
           <Input amStyle='success' placeholder='过滤姓名/学号...'
                  value={this.props.filter} name='searchRank'

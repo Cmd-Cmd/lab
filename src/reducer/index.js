@@ -19,6 +19,7 @@ import managerUser from './managerUser';
 import managerRank from './managerRank';
 import addMix from './addMix';
 import mixDetail from './mixDetail';
+import managerMix from './managerMix';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   managerRank,
   addMix,
   mixDetail,
+  managerMix,
   reset
 });
 

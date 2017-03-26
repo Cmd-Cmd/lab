@@ -34,6 +34,62 @@ const fetchTemplete = (type, form) => {
   });
 };
 
+export const managerDeleteMix = inx => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('MANAGERDELETEMIX'));
+    const mix = getState().managerMix.mixs[inx];
+    const drugMix = 'drug_mix';
+    const temp = {
+      type: 'DrugMix_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix: mix[drugMix]
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('MANAGERDELETEMIX', inx));
+          } else {
+            dispatch(fetchError('MANAGERDELETEMIX',
+                                `删除试剂失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('MANAGERDELETEMIX',
+                            `删除试剂失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('MANAGERDELETEMIX', `删除试剂失败: ${e}`)));
+  };
+};
+
+export const getMix = mix => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETMIX'));
+    const temp = {
+      type: 'GetDrugMix',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETMIX', data.data));
+          } else {
+            dispatch(fetchError('GETMIX',
+                                `获取试剂失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETMIX',
+                            `获取试剂失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETMIX', `获取试剂失败: ${e}`)));
+  };
+};
+
 export const getMixDetail = mix => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETMIXDETAIL'));
@@ -85,6 +141,114 @@ export const getMixStruct = mix => {
                             `获取试剂配方失败: RES-${res.status}`));
       }
     }, e => dispatch(fetchError('GETMIXSTRUCT', `获取试剂配方失败: ${e}`)));
+  };
+};
+
+export const updateStruct = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATE_STRUCT'));
+    const temp = {
+      type: 'DrugMixDrug_Insert_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix: getState().mixDetail.mix,
+      ...getState().mixDetail.struct
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATE_STRUCT'));
+            dispatch(getMixStruct(temp.mix));
+          } else {
+            dispatch(fetchError('UPDATE_STRUCT',
+                                `修改配方失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATE_STRUCT',
+                            `修改配方失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATE_STRUCT', `修改配方失败: ${e}`)));
+  };
+};
+
+export const mixMixSearch = mix => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('MIX_MIX_SEARCH'));
+    const temp = {
+      type: 'GetDrugMix',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('MIX_MIX_SEARCH', data.data));
+          } else {
+            dispatch(fetchError('MIX_MIX_SEARCH',
+                                `查询试剂失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('MIX_MIX_SEARCH',
+                            `查询试剂失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('MIX_MIX_SEARCH', `查询试剂失败: ${e}`)));
+  };
+};
+
+export const mixDrugSearch = drug => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('MIX_DRUG_SEARCH'));
+    const temp = {
+      type: 'GetDrug',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      drug
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('MIX_DRUG_SEARCH', data.data));
+          } else {
+            dispatch(fetchError('MIX_DRUG_SEARCH',
+                                `查询药品失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('MIX_DRUG_SEARCH',
+                            `查询药品失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('MIX_DRUG_SEARCH', `查询药品失败: ${e}`)));
+  };
+};
+
+export const deleteMix = mix => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('DELETEMIX'));
+    const temp = {
+      type: 'DrugMix_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      mix
+    };
+    fetchTemplete('DrugHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('DELETEMIX'));
+          } else {
+            dispatch(fetchError('DELETEMIX', `删除试剂失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('DELETEMIX', `删除试剂失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('DELETEMIX', `删除试剂失败: ${e}`)));
   };
 };
 
@@ -364,7 +528,7 @@ export const managerDeleteDrug = inx => {
   };
 };
 
-export const getDrug = (drug) => {
+export const getDrug = drug => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETDRUG'));
     const temp = {
@@ -380,7 +544,7 @@ export const getDrug = (drug) => {
             dispatch(fetchSuccess('GETDRUG', data.data));
           } else {
             dispatch(fetchError('GETDRUG',
-            `获取药品失败: ERR-${data.error}`));
+                                `获取药品失败: ERR-${data.error}`));
           }
         });
       } else {
@@ -391,7 +555,7 @@ export const getDrug = (drug) => {
   };
 };
 
-export const getDrugLoc = (drug) => {
+export const getDrugLoc = drug => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETDRUGLOC'));
     const temp = {
@@ -418,7 +582,7 @@ export const getDrugLoc = (drug) => {
   };
 };
 
-export const getDrugDetail = (drug) => {
+export const getDrugDetail = drug => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETDRUGDETAIL'));
     const temp = {
@@ -614,7 +778,7 @@ export const resetByQA = (id, answer) => {
   };
 };
 
-export const getQA = (id) => {
+export const getQA = id => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETQA'));
     const temp = {
@@ -637,7 +801,7 @@ export const getQA = (id) => {
   };
 };
 
-export const changePassword = (payload) => {
+export const changePassword = payload => {
   return (dispatch, getState) => {
     dispatch(fetchStart('CHANGEPW'));
     const temp = {
@@ -663,7 +827,7 @@ export const changePassword = (payload) => {
   };
 };
 
-export const changeQuestion = (payload) => {
+export const changeQuestion = payload => {
   return (dispatch, getState) => {
     dispatch(fetchStart('CHANGEQA'));
     const temp = {
@@ -725,7 +889,7 @@ export const personUpdate = () => {
   };
 };
 
-export const getPerson = (findId) => {
+export const getPerson = findId => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GETPERSON'));
     const snapState = getState().login.infos;

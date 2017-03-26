@@ -101,6 +101,10 @@ class ManagerUser extends Component {
     );
     return (
       <div id='ManagerUser' style={{position: 'relative'}}>
+        <div className='systemTitle'>
+          用户信息管理
+        </div>
+        <hr></hr>
         <Sticky>
           <Input amStyle='success' placeholder='过滤姓名/学号...'
                  value={this.props.filter} name='searchUser'

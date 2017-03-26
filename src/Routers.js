@@ -26,7 +26,8 @@ import DrugDetail from './containers/system/drug/DrugDetail';
 import ManagerDrug from './containers/system/drug/ManagerDrug';
 import DrugInOut from './containers/system/drug/DrugInOut';
 import AddMix from './containers/system/mix/AddMix';
-import MixDetail from './containers/system/mix/MixDeail';
+import MixDetail from './containers/system/mix/MixDetail';
+import ManagerMix from './containers/system/mix/ManagerMix';
 import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
@@ -107,6 +108,8 @@ class Routers extends Component {
             <Route path='/system/addMix' component={AddMix}
                    onEnter={() => this.props.changeSystemActive(3)}></Route>
             <Route path='/system/mixDetail' component={MixDetail}
+                   onEnter={() => this.props.changeSystemActive(3)}></Route>
+            <Route path='/system/managerMix' component={ManagerMix}
                    onEnter={() => this.props.changeSystemActive(3)}></Route>
           </Route>
           <Route path='/reset' component={Reset} onEnter={() => {
