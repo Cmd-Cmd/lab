@@ -192,7 +192,7 @@ class NewUser extends Component {
             </Col>
             <Col sm={12}>
               <small className='am-text-danger'>
-                新用户初始密码与学号/工号一致
+                用户名和初始密码均与学号/工号一致
               </small>
               <Button amStyle='success' type='submit' block>创建新用户</Button>
             </Col>

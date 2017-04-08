@@ -32,8 +32,8 @@ export const sidebarData = [
   {
     name: '文章管理',
     links: [
-      {name: '发布文章', to: '/NewArticle'},
-      {name: '管理文章', to: '/ManagerArticle'}
+      {name: '发布文章', to: '/article/newArticle'},
+      {name: '管理文章', to: '/article/managerArticle'}
     ]
   },
   {

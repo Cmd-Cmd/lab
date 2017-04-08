@@ -1,3 +1,61 @@
+export const resetArticle = () => {
+  return {
+    type: 'RESET_ARTICLE'
+  };
+};
+
+export const changeArticleText = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_TEXT',
+    payload
+  };
+};
+
+export const changeArticleId = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_ID',
+    payload
+  };
+};
+
+export const changeArticleHits = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_HITS',
+    payload
+  };
+};
+
+export const changeArticleContent = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_CONTENT',
+    payload
+  };
+};
+
+export const changeArticleTitle = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_TITILE',
+    payload
+  };
+};
+
+export const changeArticleType = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_TYPE',
+    payload
+  };
+};
+
+export const changeManagerArticleTime = (time, type) => {
+  return {
+    type: 'CHANGE_MANAGER_ARTICLE_TIME',
+    payload: {
+      time,
+      type
+    }
+  };
+};
+
 export const managerMixPageTo = payload => {
   return {
     type: 'MANAGER_MIX_PAGE_TO',

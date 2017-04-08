@@ -68,7 +68,7 @@ class ManagerMix extends Component {
         <hr></hr>
         <Sticky>
           <form onSubmit={e => this.handleSubmit(e)}>
-            <Input amStyle='success' placeholder='搜索药品...' name='mix'
+            <Input amStyle='success' placeholder='搜索试剂...' name='mix'
                    btnAfter={searchBtn} />
           </form>
         </Sticky>

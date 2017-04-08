@@ -46,7 +46,7 @@ class ManagerDrug extends Component {
     });
   }
 
-  handleTest() {
+  handleModal() {
     this.props.deleteDrug(this.state.tempDeleteInx);
   }
 
@@ -101,7 +101,7 @@ class ManagerDrug extends Component {
                               onClick={e => this.handleEdit(e)}>
                         <Icon icon='edit'> 编辑</Icon>
                       </Button>
-                      <ModalTrigger onConfirm={() => this.handleTest()} modal={
+                      <ModalTrigger onConfirm={() => this.handleModal()} modal={
                         <Modal type='confirm' title='删除药品'>
                           确定删除药品 {this.state.tempDeleteName} 吗？
                         </Modal>

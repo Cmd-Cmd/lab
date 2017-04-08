@@ -36,7 +36,7 @@ class DrugInOut extends Component {
             </div>
           </Sticky>
           <Grid className='am-margin-top'>
-            <Col sm={6}>
+            <Col sm={12} md={6}>
               <span>起始时间</span>
               <DateTimeInput showTimePicker={false} format='YYYY-M-D'
                              amStyle='success'
@@ -47,7 +47,7 @@ class DrugInOut extends Component {
                              maxDate={this.props.endTime}
                              dateTime={this.props.startTime} />
             </Col>
-            <Col sm={6}>
+            <Col sm={12} md={6}>
               <span>终止时间</span>
               <DateTimeInput showTimePicker={false} format='YYYY-M-D'
                              amStyle='success'

@@ -1,14 +1,6 @@
-const test = [
-  {id: 0, title: 'Cmd'},
-  {id: 1, title: 'Cmd'},
-  {id: 2, title: 'Cmd'},
-  {id: 3, title: 'Cmd'},
-  {id: 4, title: 'Cmd'},
-  {id: 5, title: 'Cmd'},
-  {id: 6, title: 'Cmd'},
-  {id: 7, title: 'Cmd'},
-  {id: 8, title: 'Cmd'}
-];
+import $ from 'jquery';
+
+import hint from '../hint';
 
 const test2 = [
   {id: '0', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
@@ -32,8 +24,8 @@ const test2 = [
 ];
 
 const initState = {
-  newsData: test,
-  noticeData: test,
+  newsData: [],
+  noticeData: [],
   todayData: test2,
   todayTime: 0
 };
@@ -43,13 +35,52 @@ const listView = (state = initState, action) => {
   switch (action.type) {
     case 'RESET_TABLEVIEW_TIME':
       nextState.todayTime = 0;
-      return nextState;
+      break;
     case 'SET_TABLEVIEW_TIME':
       nextState.todayTime = action.payload;
-      return nextState;
+      break;
+    case 'FETCH_GET_NEWS_DATA_START':
+      $('#ListViewNews')
+        .append($('<div>')
+        .addClass('loader')
+        .append($('<div>')
+        .addClass('loader-inner square-spin')
+        .append($('<div>'))));
+      break;
+    case 'FETCH_GET_NEWS_DATA_SUCCESS':
+      nextState.newsData = action.payload.map((ele, inx) => ({
+        id: ele.ArticleID,
+        title: ele.Title
+      }));
+      $('#ListViewNews div.loader').remove();
+      break;
+    case 'FETCH_GET_NEWS_DATA_ERROR':
+      hint(action.payload);
+      $('#ListViewNews div.loader').remove();
+      break;
+    case 'FETCH_GET_NOTICE_DATA_START':
+      $('#ListViewNotice')
+        .append($('<div>')
+        .addClass('loader')
+        .append($('<div>')
+        .addClass('loader-inner square-spin')
+        .append($('<div>'))));
+      break;
+    case 'FETCH_GET_NOTICE_DATA_SUCCESS':
+      nextState.noticeData = action.payload.map((ele, inx) => ({
+        id: ele.ArticleID,
+        title: ele.Title
+      }));
+      $('#ListViewNotice div.loader').remove();
+      break;
+    case 'FETCH_GET_NOTICE_DATA_ERROR':
+      hint(action.payload);
+      $('#ListViewNotice div.loader').remove();
+      break;
     default:
       return state;
   }
+  return nextState;
 };
 
 export default listView;

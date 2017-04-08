@@ -6,7 +6,14 @@ import ListView from '../../components/home/ListView';
 import TableView from '../../components/home/TableView';
 import {tableViewTime} from '../../action';
 
+import {getNewsData, getNoticeData} from '../../action/fetch';
+
 class ListViews extends Component {
+  componentDidMount() {
+    this.props.getNewsData();
+    this.props.getNoticeData();
+  }
+
   render() {
     return (
       <Grid>
@@ -17,11 +24,11 @@ class ListViews extends Component {
                      data={this.props.todayData}></TableView>
         </Col>
         <Col md={6} sm={12}>
-          <ListView title='新闻' english='news'
+          <ListView title='新闻' english='news' id='ListViewNews'
                     data={this.props.newsData}></ListView>
         </Col>
         <Col md={6} sm={12}>
-          <ListView title='公告' english='notice'
+          <ListView title='公告' english='notice' id='ListViewNotice'
                     data={this.props.noticeData}></ListView>
         </Col>
       </Grid>
@@ -40,7 +47,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setTime: time => dispatch(tableViewTime(time))
+    setTime: time => dispatch(tableViewTime(time)),
+    getNewsData: () => dispatch(getNewsData()),
+    getNoticeData: () => dispatch(getNoticeData())
   };
 };
 

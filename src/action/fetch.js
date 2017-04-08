@@ -1,6 +1,5 @@
-import {cont, api} from './exampleData';
 import {personChange} from './index';
-import {setDrugDetail, setMixDetail} from './index';
+import {setDrugDetail, setMixDetail, resetArticle} from './index';
 
 const fetchStart = (op, payload = {}) => {
   return {
@@ -32,6 +31,93 @@ const fetchTemplete = (type, form) => {
     },
     body: 'json=' + escape(JSON.stringify(form))
   });
+};
+
+export const publishArticle = (editor) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('PUBLISH_ARTICLE'));
+    const temp = {
+      type: 'Add_UpdateNews',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ArticleID: getState().newArticle.id,
+      Title: getState().newArticle.title,
+      'Content_1': getState().newArticle.content,
+      Hits: getState().newArticle.hits,
+      'Member_Name': getState().login.infos.name,
+      'news_type': getState().newArticle.type === 'news' ? 1 : 2,
+      infor: getState().newArticle.text
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('PUBLISH_ARTICLE'));
+            dispatch(resetArticle());
+            editor.$txt.html('');
+          } else {
+            dispatch(fetchError('PUBLISH_ARTICLE',
+                                `发布文章失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('PUBLISH_ARTICLE',
+                            `发布文章失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('PUBLISH_ARTICLE', `发布文章失败: ${e}`)));
+  };
+};
+
+export const getNoticeData = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_NOTICE_DATA'));
+    const temp = {
+      type: 'GetNewsLate',
+      num: '10',
+      'news_type': '2'
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_NOTICE_DATA', data.data));
+          } else {
+            dispatch(fetchError('GET_NOTICE_DATA',
+                                `获取新闻失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_NOTICE_DATA',
+                            `获取新闻失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_NOTICE_DATA', `获取新闻失败: ${e}`)));
+  };
+};
+
+export const getNewsData = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_NEWS_DATA'));
+    const temp = {
+      type: 'GetNewsLate',
+      num: '10',
+      'news_type': '1'
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_NEWS_DATA', data.data));
+          } else {
+            dispatch(fetchError('GET_NEWS_DATA',
+                                `获取新闻失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_NEWS_DATA',
+                            `获取新闻失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_NEWS_DATA', `获取新闻失败: ${e}`)));
+  };
 };
 
 export const managerDeleteMix = inx => {
@@ -964,24 +1050,24 @@ export const login = form => {
 export const getEssay = (housing, id) => {
   return (dispatch, getState) => {
     dispatch(fetchStart(`GET${housing}`, {id}));
-    switch (id) {
-      case 0:
-        dispatch(fetchSuccess(`GET${housing}`, {cont}));
-        break;
-      case 1:
-        fetch(api).then(res => {
-          if (res.ok) {
-            res.json().then(data => {
-              data = JSON.stringify(data);
-              dispatch(fetchSuccess(`GET${housing}`, {cont: data}));
-            });
+    const temp = {
+      type: 'GetNewsDetail',
+      ArticleID: id
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess(`GET${housing}`, data.data[0]));
           } else {
-            dispatch(fetchError(`GET${housing}`), {id, res});
+            dispatch(fetchError(`GET${housing}`,
+                                `文章获取失败: ERR-${data.error}`));
           }
         });
-        break;
-      default:
-        dispatch(fetchError(`GET${housing}`));
-    }
+      } else {
+        dispatch(fetchError(`GET${housing}`,
+                            `文章获取失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError(`GET${housing}`, `文章获取失败: ${e}`)));
   };
 };

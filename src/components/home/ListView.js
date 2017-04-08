@@ -8,7 +8,7 @@ class ListView extends Component {
   render() {
     let {title, english} = this.props;
     return (
-      <div className='listView'>
+      <div className='listView' id={this.props.id}>
         <Link to={`/${english}`}>
           <h3 className='title'>
             {title}<span className='subTitle'>{english}</span>

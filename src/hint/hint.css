@@ -3,7 +3,7 @@ div.hint {
   top: 10px;
   left: 0;
   right: 0;
-  z-index: 10000;
+  z-index: 20000;
   height: 50px;
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 1000px;

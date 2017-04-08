@@ -30,7 +30,7 @@ class LoginButton extends Component {
             <Col sm={12} id='loginAlert'></Col>
             <Col sm={12}>
               <Input addonBefore={<Icon icon='user' />}
-                     placeholder='用户名' type='text' amStyle='primary'
+                     placeholder='学号/工号' type='text' amStyle='primary'
                      name='id' required />
             </Col>
             <Col sm={12}>
