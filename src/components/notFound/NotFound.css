@@ -1,0 +1,40 @@
+#NotFound div.element {
+  margin: 0 auto;
+  border-radius: 5px;
+  width: 300px;
+  height: 300px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  opacity: 0.8;
+  color: white;
+  transition: opacity 0.5s;
+  box-shadow: inset 0 0 10px 5px white;
+}
+
+#NotFound div.index {
+  text-align: right;
+  font-size: 1.5em;
+  padding-right: 10px;
+  border-bottom: 1px solid white;
+}
+
+#NotFound div.symbol {
+  font-size: 8em;
+  font-weight: 900;
+  text-shadow: -1px 1px gray, -2px 2px gray, -3px 3px gray, -4px 4px gray, -5px 5px gray;
+}
+
+#NotFound div.name {
+  border-top: 1px solid white;
+  padding-left: 10px;
+  text-align: left;
+  font-size: 1.5em;
+}
+
+#NotFound div.element:hover {
+  opacity: 1;
+}
+
+#NotFound div.link {
+  margin-bottom: 50px;
+}

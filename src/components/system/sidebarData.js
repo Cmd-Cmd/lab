@@ -32,15 +32,15 @@ export const sidebarData = [
   {
     name: '文章管理',
     links: [
-      {name: '发布文章', to: '/article/newArticle'},
-      {name: '管理文章', to: '/article/managerArticle'}
+      {name: '发布文章', to: '/system/newArticle'},
+      {name: '管理文章', to: '/system/managerArticle'}
     ]
   },
   {
     name: '仪器库',
     links: [
-      {name: '查询仪器', to: '/SearchDevice'},
-      {name: '仪器信息管理', to: '/ManagerDevice'}
+      {name: '新增仪器', to: '/system/addDevice'},
+      {name: '仪器信息管理', to: '/system/managerDevice'}
     ]
   }
 ];

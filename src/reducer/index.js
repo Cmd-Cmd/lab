@@ -22,6 +22,8 @@ import mixDetail from './mixDetail';
 import managerMix from './managerMix';
 import newArticle from './newArticle';
 import managerArticle from './managerArticle';
+import addDevice from './addDevice';
+import managerDevice from './managerDevice';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -47,6 +49,8 @@ const reducer = combineReducers({
   managerMix,
   newArticle,
   managerArticle,
+  addDevice,
+  managerDevice,
   reset
 });
 

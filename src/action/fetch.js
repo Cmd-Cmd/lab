@@ -1,5 +1,6 @@
 import {personChange} from './index';
-import {setDrugDetail, setMixDetail, resetArticle} from './index';
+import {setDrugDetail, setMixDetail, setDeviceDetail,
+        resetArticle} from './index';
 
 const fetchStart = (op, payload = {}) => {
   return {
@@ -31,6 +32,90 @@ const fetchTemplete = (type, form) => {
     },
     body: 'json=' + escape(JSON.stringify(form))
   });
+};
+
+export const managerDeleteDevice = inx => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('MANAGERDELETEDEVICE'));
+    const device = getState().managerDevice.devices[inx];
+    const equipName = 'equip_name';
+    const temp = {
+      type: 'Equip_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'equip_name': device[equipName]
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('MANAGERDELETEDEVICE', inx));
+          } else {
+            dispatch(fetchError('MANAGERDELETEDEVICE',
+                                `删除设备失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('MANAGERDELETEDEVICE',
+                            `删除设备失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('MANAGERDELETEDEVICE', `删除设备失败: ${e}`)));
+  };
+};
+
+export const getDevice = device => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETDEVICE'));
+    const temp = {
+      type: 'GetEquip',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'equip_name': device
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETDEVICE', data.data));
+          } else {
+            dispatch(fetchError('GETDEVICE',
+                                `获取设备失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETDEVICE',
+                            `获取设备失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDEVICE', `获取设备失败: ${e}`)));
+  };
+};
+
+export const addDevice = form => {
+  return (dispatch, getState) => {
+    const equipName = 'equip_name';
+    dispatch(fetchStart('ADDDEVICE'));
+    const temp = {
+      type: 'Equip_Insert_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ...form,
+      'equip_old': '-1',
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(setDeviceDetail(form[equipName]));
+            dispatch(fetchSuccess('ADDDEVICE', form[equipName]));
+          } else {
+            dispatch(fetchError('ADDDEVICE', `新增仪器失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('ADDDEVICE', `新增仪器失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('ADDDEVICE', `新增仪器失败: ${e}`)));
+  };
 };
 
 export const publishArticle = (editor) => {
@@ -192,14 +277,14 @@ export const getMixDetail = mix => {
             dispatch(fetchSuccess('GETMIXDETAIL', data.data[0]));
           } else {
             dispatch(fetchError('GETMIXDETAIL',
-                                `获取药品详情失败: ERR-${data.error}`));
+                                `获取试剂详情失败: ERR-${data.error}`));
           }
         });
       } else {
         dispatch(fetchError('GETMIXDETAIL',
-                            `获取药品详情失败: RES-${res.status}`));
+                            `获取试剂详情失败: RES-${res.status}`));
       }
-    }, e => dispatch(fetchError('GETDRUGDETAIL', `获取药品详情失败: ${e}`)));
+    }, e => dispatch(fetchError('GETMIXDETAIL', `获取试剂详情失败: ${e}`)));
   };
 };
 
@@ -1058,7 +1143,12 @@ export const getEssay = (housing, id) => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {
-            dispatch(fetchSuccess(`GET${housing}`, data.data[0]));
+            if ((data.data[0].type === '1' && housing === 'NEWS') ||
+                (data.data[0].type === '2' && housing === 'NOTICE')) {
+              dispatch(fetchSuccess(`GET${housing}`, data.data[0]));
+            } else {
+              dispatch(fetchError(`GET${housing}`, '文章获取失败: 文章类型错误'));
+            }
           } else {
             dispatch(fetchError(`GET${housing}`,
                                 `文章获取失败: ERR-${data.error}`));

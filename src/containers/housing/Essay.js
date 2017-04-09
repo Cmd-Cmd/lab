@@ -7,8 +7,9 @@ import './Essay.css';
 class Essay extends Component {
   render() {
     return (
-      <Article className='am-margin-bottom' title={this.props.essay.title}
-               meta={this.props.essay.meta} id='Essay'
+      <Article className='am-margin-bottom am-animation-fade' id='Essay'
+               title={this.props.essay.title}
+               meta={this.props.essay.meta}
                style={{position: 'relative'}} >
         <hr />
         <div dangerouslySetInnerHTML={{__html: this.props.essay.content}}></div>

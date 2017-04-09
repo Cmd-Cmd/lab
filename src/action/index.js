@@ -1,3 +1,17 @@
+export const managerDevicePageTo = payload => {
+  return {
+    type: 'MANAGER_DEVICE_PAGE_TO',
+    payload
+  };
+};
+
+export const setDeviceDetail = payload => {
+  return {
+    type: 'SET_DEVICE_DETAIL',
+    payload
+  };
+};
+
 export const resetArticle = () => {
   return {
     type: 'RESET_ARTICLE'

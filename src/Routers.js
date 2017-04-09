@@ -30,6 +30,8 @@ import MixDetail from './containers/system/mix/MixDetail';
 import ManagerMix from './containers/system/mix/ManagerMix';
 import NewArticle from './containers/system/article/NewArticle';
 import ManagerArticle from './containers/system/article/ManagerArticle';
+import AddDevice from './containers/system/device/AddDevice';
+import ManagerDevice from './containers/system/device/ManagerDevice';
 import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
@@ -51,34 +53,28 @@ class Routers extends Component {
                       onEnter={() => this.props.navEnter('首页')}></IndexRoute>
           <Route path='/news' component={Housing} onEnter={() => {
             this.props.navEnter('新闻');
+            this.props.onListing('NEWS');
           }}>
-            <IndexRoute component={Listing} onEnter={() => {
-              this.props.onListing('NEWS');
-            }}></IndexRoute>
+            <IndexRoute component={Listing}></IndexRoute>
             <Route path='/news/:id' component={Essay} onEnter={({params}) => {
-              this.props.onListing('NEWS');
               this.props.getEssay('NEWS', parseInt(params.id, 10));
             }}></Route>
           </Route>
           <Route path='/notice' component={Housing} onEnter={() => {
             this.props.navEnter('公告');
+            this.props.onListing('NOTICE');
           }}>
-            <IndexRoute component={Listing} onEnter={() => {
-              this.props.onListing('NOTICE');
-            }}></IndexRoute>
+            <IndexRoute component={Listing}></IndexRoute>
             <Route path='/notice/:id' component={Essay} onEnter={({params}) => {
-              this.props.onListing('NOTICE');
               this.props.getEssay('NOTICE', parseInt(params.id, 10));
             }}></Route>
           </Route>
           <Route path='/today' component={Housing} onEnter={() => {
             this.props.navEnter('今日');
+            this.props.onListing('TODAY');
           }}>
-            <IndexRoute component={Tabling} onEnter={() => {
-              this.props.onListing('TODAY');
-            }}></IndexRoute>
+            <IndexRoute component={Tabling}></IndexRoute>
             <Route path='/today/:id' component={Essay} onEnter={({params}) => {
-              this.props.onListing('TODAY');
               this.props.getEssay('TODAY', parseInt(params.id, 10));
             }}></Route>
           </Route>
@@ -116,10 +112,14 @@ class Routers extends Component {
                    onEnter={() => this.props.changeSystemActive(3)}></Route>
             <Route path='/system/managerMix' component={ManagerMix}
                    onEnter={() => this.props.changeSystemActive(3)}></Route>
-            <Route path='/article/newArticle' component={NewArticle}
+            <Route path='/system/newArticle' component={NewArticle}
                    onEnter={() => this.props.changeSystemActive(4)}></Route>
-            <Route path='/article/managerArticle' component={ManagerArticle}
+            <Route path='/system/managerArticle' component={ManagerArticle}
                    onEnter={() => this.props.changeSystemActive(4)}></Route>
+            <Route path='/system/addDevice' component={AddDevice}
+                   onEnter={() => this.props.changeSystemActive(5)}></Route>
+            <Route path='/system/managerDevice' component={ManagerDevice}
+                   onEnter={() => this.props.changeSystemActive(5)}></Route>
           </Route>
           <Route path='/reset' component={Reset} onEnter={() => {
             this.props.navEnter('重置');

@@ -4,8 +4,8 @@ import {Sticky, Button, Icon, Input, Table,
 import {hashHistory} from 'react-router';
 import {connect} from 'react-redux';
 
-import {getMix, managerDeleteMix} from '../../../action/fetch';
-import {setMixDetail, managerMixPageTo} from '../../../action';
+import {getDevice, managerDeleteDevice} from '../../../action/fetch';
+import {setDeviceDetail, managerDevicePageTo} from '../../../action';
 
 const searchBtn = (
   <Button amStyle='success' type='submit'>
@@ -13,7 +13,7 @@ const searchBtn = (
   </Button>
 );
 
-class ManagerMix extends Component {
+class ManagerDevice extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,34 +24,34 @@ class ManagerMix extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.getMix(e.target.mix.value);
+    this.props.getDevice(e.target.device.value);
   }
 
   handleEdit(e) {
     if (e.currentTarget.tagName.toLowerCase() !== 'button') {
       return;
     }
-    this.props.setMixDetail(e.currentTarget.name);
-    hashHistory.push('/system/mixDetail');
+    this.props.setDeviceDetail(e.currentTarget.name);
+    hashHistory.push('/system/deviceDetail');
   }
 
   handleDelete(e) {
     if (e.currentTarget.tagName.toLowerCase() !== 'button') {
       return;
     }
-    const drugMix = 'drug_mix';
+    const eqName = 'equip_name';
     this.setState({
       tempDeleteInx: Number(e.currentTarget.name),
-      tempDeleteName: this.props.mixs[Number(e.currentTarget.name)][drugMix]
+      tempDeleteName: this.props.devices[Number(e.currentTarget.name)][eqName]
     });
   }
 
   handleModal() {
-    this.props.deleteMix(this.state.tempDeleteInx);
+    this.props.deleteDevice(this.state.tempDeleteInx);
   }
 
   render() {
-    const drugMix = 'drug_mix';
+    const equipName = 'equip_name';
     let pageArr = [];
     let temp = (this.props.pageNow - 2 < 0) ? 0 : this.props.pageNow - 2;
     for (let i = temp; i < temp + 4 && i <= this.props.pageAll; i++) {
@@ -61,43 +61,47 @@ class ManagerMix extends Component {
       pageArr.unshift(pageArr[0] - 1);
     }
     return (
-      <div id='ManagerMix' style={{position: 'relative'}}>
+      <div id='ManagerDevice' style={{position: 'relative'}}>
         <div className='systemTitle'>
-          试剂信息管理
+          仪器信息管理
         </div>
         <hr></hr>
         <Sticky>
           <form onSubmit={e => this.handleSubmit(e)}>
-            <Input amStyle='success' placeholder='搜索试剂...' name='mix'
+            <Input amStyle='success' placeholder='搜索仪器...' name='device'
                    btnAfter={searchBtn} />
           </form>
         </Sticky>
         <Table hover responsive className='am-margin-top'>
           <thead>
             <tr>
-              <th>试剂名</th>
-              <th>单位</th>
-              <th>注意事项</th>
+              <th>仪器名</th>
+              <th>型号</th>
+              <th>公司</th>
+              <th>具体情况</th>
+              <th>价格</th>
               <th style={{width: '150px'}}>操作</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.props.mixs.map((ele, inx) => {
+              this.props.devices.map((ele, inx) => {
                 return (
                   <tr key={inx}>
-                    <td>{ele[drugMix]}</td>
-                    <td>{ele.standard}</td>
-                    <td>{ele.attention}</td>
+                    <td>{ele[equipName]}</td>
+                    <td>{ele.model}</td>
+                    <td>{ele.factory}</td>
+                    <td>{ele.detail}</td>
+                    <td>{ele.price}</td>
                     <td>
                       <Button amStyle='secondary' amSize='xs'
-                              name={ele[drugMix]}
+                              name={ele[equipName]}
                               onClick={e => this.handleEdit(e)}>
                         <Icon icon='edit'> 编辑</Icon>
                       </Button>
                       <ModalTrigger onConfirm={() => this.handleModal()} modal={
                         <Modal type='confirm' title='删除药品'>
-                          确定删除药品 {this.state.tempDeleteName} 吗？
+                          确定删除设备 {this.state.tempDeleteName} 吗？
                         </Modal>
                       }>
                         <Button amStyle='danger' amSize='xs' name={inx}
@@ -145,20 +149,20 @@ class ManagerMix extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  mixs: state.managerMix.mixs,
-  pageNow: state.managerMix.pageNow,
-  pageAll: state.managerMix.pageAll
+  devices: state.managerDevice.devices,
+  pageNow: state.managerDevice.pageNow,
+  pageAll: state.managerDevice.pageAll
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getMix: mix => dispatch(getMix(mix)),
-    setMixDetail: mix => dispatch(setMixDetail(mix)),
-    deleteMix: mix => dispatch(managerDeleteMix(mix)),
-    changePage: page => dispatch(managerMixPageTo(page))
+    getDevice: device => dispatch(getDevice(device)),
+    setDeviceDetail: device => dispatch(setDeviceDetail(device)),
+    deleteDevice: device => dispatch(managerDeleteDevice(device)),
+    changePage: page => dispatch(managerDevicePageTo(page))
   };
 };
 
-ManagerMix = connect(mapStateToProps, mapDispatchToProps)(ManagerMix);
+ManagerDevice = connect(mapStateToProps, mapDispatchToProps)(ManagerDevice);
 
-export default ManagerMix;
+export default ManagerDevice;

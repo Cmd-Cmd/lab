@@ -108,11 +108,12 @@ const login = (state = initState, action) => {
         .append($('<div>'))));
       break;
     case 'FETCH_UPDATEPERSON_SUCCESS':
+      hint('修改个人信息成功');
       $('#personForm div.loader').remove();
       break;
     case 'FETCH_UPDATEPERSON_ERROR':
-      $('#personForm div.loader').remove();
       hint(action.payload);
+      $('#personForm div.loader').remove();
       break;
     case 'LOGOUT':
       localStorage.removeItem('id');
