@@ -736,7 +736,7 @@ export const updateRank = form => {
 
 export const deleteUser = inx => {
   return (dispatch, getState) => {
-    dispatch(fetchStart('RESET_USER'));
+    dispatch(fetchStart('DELETE_USER'));
     const user = getState().managerUser.users[inx];
     const temp = {
       type: 'Rank_Delete',

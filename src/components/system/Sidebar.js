@@ -10,6 +10,19 @@ class Sidebar extends Component {
     return (
       <ul id='Sidebar'>
         {sidebarData.map((ele, inx) => {
+          if (ele.level) {
+            let temp = 'rank_' + ele.level.type;
+            temp = this.props.infos[temp];
+            for (let i = 0; i < ele.level.needs.length; i++) {
+              if (temp === ele.level.needs[i]) {
+                temp = true;
+                break;
+              }
+            }
+            if (temp !== true) {
+              return null;
+            }
+          }
           return (
             <li key={inx}
                 className={(this.props.active === inx) ? 'active' : ''}>
@@ -24,6 +37,19 @@ class Sidebar extends Component {
               </span>
               <ul>
                 {ele.links.map((ele, inx) => {
+                  if (ele.level) {
+                    let temp = 'rank_' + ele.level.type;
+                    temp = this.props.infos[temp];
+                    for (let i = 0; i < ele.level.needs.length; i++) {
+                      if (temp === ele.level.needs[i]) {
+                        temp = true;
+                        break;
+                      }
+                    }
+                    if (temp !== true) {
+                      return null;
+                    }
+                  }
                   return (
                     <li key={inx}>
                       <Link to={ele.to}>{ele.name}</Link>

@@ -25,13 +25,15 @@ class System extends Component {
             <Sticky>
               <div id='System-menu'>
                 <Sidebar active={this.props.active}
-                         activeTo={this.props.activeTo}></Sidebar>
+                         activeTo={this.props.activeTo}
+                         infos={this.props.infos} />
               </div>
             </Sticky>
           ) : (
             <div id='System-menu'>
               <Sidebar active={this.props.active}
-                       activeTo={this.props.activeTo}></Sidebar>
+                       activeTo={this.props.activeTo}
+                       infos={this.props.infos} />
             </div>
           )}
         <div id='System-content'>
@@ -45,7 +47,8 @@ class System extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     logined: state.login.logined,
-    active: state.system.active
+    active: state.system.active,
+    infos: state.login.infos
   };
 };
 
