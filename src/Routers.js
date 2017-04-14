@@ -32,6 +32,7 @@ import NewArticle from './containers/system/article/NewArticle';
 import ManagerArticle from './containers/system/article/ManagerArticle';
 import AddDevice from './containers/system/device/AddDevice';
 import ManagerDevice from './containers/system/device/ManagerDevice';
+import DeviceDetail from './containers/system/device/DeviceDetail';
 import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
@@ -119,6 +120,8 @@ class Routers extends Component {
             <Route path='/system/addDevice' component={AddDevice}
                    onEnter={() => this.props.changeSystemActive(5)}></Route>
             <Route path='/system/managerDevice' component={ManagerDevice}
+                   onEnter={() => this.props.changeSystemActive(5)}></Route>
+            <Route path='/system/deviceDetail' component={DeviceDetail}
                    onEnter={() => this.props.changeSystemActive(5)}></Route>
           </Route>
           <Route path='/reset' component={Reset} onEnter={() => {

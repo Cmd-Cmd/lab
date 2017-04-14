@@ -24,6 +24,7 @@ import newArticle from './newArticle';
 import managerArticle from './managerArticle';
 import addDevice from './addDevice';
 import managerDevice from './managerDevice';
+import deviceDetail from './deviceDetail';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -51,6 +52,7 @@ const reducer = combineReducers({
   managerArticle,
   addDevice,
   managerDevice,
+  deviceDetail,
   reset
 });
 

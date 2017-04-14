@@ -90,6 +90,181 @@ export const getDevice = device => {
   };
 };
 
+export const getDeviceLoc = device => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETDEVICELOC'));
+    const temp = {
+      type: 'GetEquipLocDetail',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'equip_name': device
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETDEVICELOC', data.data));
+          } else {
+            dispatch(fetchError('GETDEVICELOC',
+            `获取设备位置失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETDEVICELOC',
+                            `获取设备位置失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDEVICELOC', `获取设备位置失败: ${e}`)));
+  };
+};
+
+export const getDeviceDetail = device => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GETDEVICEDETAIL'));
+    const temp = {
+      type: 'GetEquipDetail',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'equip_name': device
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GETDEVICEDETAIL', data.data[0]));
+          } else {
+            dispatch(fetchError('GETDEVICEDETAIL',
+                                `获取设备详情失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GETDEVICEDETAIL',
+                            `获取设备详情失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GETDEVICEDETAIL', `获取设备详情失败: ${e}`)));
+  };
+};
+
+export const deleteDeviceLoc = no => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('DELETEDEVICE_LOC'));
+    const temp = {
+      type: 'EquipLoc_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'fixed_assets_NO': no
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('DELETEDEVICE_LOC'));
+            dispatch(getDeviceLoc(getState().deviceDetail.device));
+          } else {
+            dispatch(fetchError('DELETEDEVICE_LOC',
+                                `删除设备位置失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('DELETEDEVICE_LOC',
+                            `删除设备位置失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('DELETEDEVICE_LOC', `删除设备位置失败: ${e}`)));
+  };
+};
+
+export const deleteDevice = device => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('DELETEDEVICE'));
+    const temp = {
+      type: 'Equip_Delete',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'equip_name': device
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('DELETEDEVICE'));
+          } else {
+            dispatch(fetchError('DELETEDEVICE',
+                                `删除设备失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('DELETEDEVICE',
+                            `删除设备失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('DELETEDEVICE', `删除设备失败: ${e}`)));
+  };
+};
+
+export const deviceLocUpdate = form => {
+  const old = 'old_fixed_assets_NO';
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATEDEVICE_LOC'));
+    const temp = {
+      type: 'EquipLoc_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      people: getState().login.infos.name,
+      ...form
+    };
+    if (temp[old] === '-1') {
+      temp.type = 'EquipLoc_Insert';
+      delete temp[old];
+    }
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATEDEVICE_LOC'));
+            dispatch(getDeviceLoc(getState().deviceDetail.device));
+          } else {
+            dispatch(fetchError('UPDATEDEVICE_LOC',
+                                `修改位置信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATEDEVICE_LOC',
+                            `修改位置信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATEDEVICE_LOC', `修改位置信息失败: ${e}`)));
+  };
+};
+
+export const deviceUpdate = form => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATEDEVICE'));
+    const equipName = 'equip_name';
+    const temp = {
+      type: 'Equip_Insert_Update',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      people: getState().login.infos.name,
+      'equip_old': getState().deviceDetail.device,
+      ...form
+    };
+    fetchTemplete('EquipmentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATEDEVICE'));
+            dispatch(setDeviceDetail(form[equipName]));
+            dispatch(getDeviceDetail(form[equipName]));
+            dispatch(getDeviceLoc(form[equipName]));
+          } else {
+            dispatch(fetchError('UPDATEDEVICE',
+                                `修改信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATEDEVICE', `修改信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATEDEVICE', `修改信息失败: ${e}`)));
+  };
+};
+
 export const addDevice = form => {
   return (dispatch, getState) => {
     const equipName = 'equip_name';
@@ -804,7 +979,7 @@ export const deleteDrugLoc = loc => {
         dispatch(fetchError('DELETEDRUG_LOC',
                             `删除药品位置失败: RES-${res.status}`));
       }
-    }, e => dispatch(fetchError('UPDATEDRUG_LOC', `删除药品位置失败: ${e}`)));
+    }, e => dispatch(fetchError('DELETEDRUG_LOC', `删除药品位置失败: ${e}`)));
   };
 };
 

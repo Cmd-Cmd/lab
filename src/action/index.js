@@ -1,3 +1,37 @@
+export const deleteNewDeviceLoc = () => {
+  return {
+    type: 'DELETE_NEW_DEVICE_LOC'
+  };
+};
+
+export const newDeviceLoc = () => {
+  return {
+    type: 'NEW_DEVICE_LOC'
+  };
+};
+
+export const deviceLocChange = e => {
+  let value = e.target.value;
+  return {
+    type: 'DEVICE_LOC_CHANGE',
+    payload: {
+      inx: e.currentTarget.dataset.key,
+      name: e.target.name,
+      value
+    }
+  };
+};
+
+export const deviceDetailChange = e => {
+  return {
+    type: 'DEVICE_DETAIL_CHANGE',
+    payload: {
+      name: e.target.name,
+      value: e.target.value.trim()
+    }
+  };
+};
+
 export const managerDevicePageTo = payload => {
   return {
     type: 'MANAGER_DEVICE_PAGE_TO',
