@@ -25,15 +25,15 @@ class System extends Component {
             <Sticky>
               <div id='System-menu'>
                 <Sidebar active={this.props.active}
-                         infos={this.props.infos}
-                         activeTo={this.props.activeTo}></Sidebar>
+                         activeTo={this.props.activeTo}
+                         infos={this.props.infos} />
               </div>
             </Sticky>
           ) : (
             <div id='System-menu'>
               <Sidebar active={this.props.active}
-                       infos={this.props.infos}
-                       activeTo={this.props.activeTo}></Sidebar>
+                       activeTo={this.props.activeTo}
+                       infos={this.props.infos} />
             </div>
           )}
         <div id='System-content'>
