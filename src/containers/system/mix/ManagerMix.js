@@ -96,8 +96,8 @@ class ManagerMix extends Component {
                         <Icon icon='edit'> 编辑</Icon>
                       </Button>
                       <ModalTrigger onConfirm={() => this.handleModal()} modal={
-                        <Modal type='confirm' title='删除药品'>
-                          确定删除药品 {this.state.tempDeleteName} 吗？
+                        <Modal type='confirm' title='删除试剂'>
+                          确定删除试剂 {this.state.tempDeleteName} 吗？
                         </Modal>
                       }>
                         <Button amStyle='danger' amSize='xs' name={inx}
