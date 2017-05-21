@@ -34,6 +34,331 @@ const fetchTemplete = (type, form) => {
   });
 };
 
+export const getCheckInfoMine = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_CHECK_INFO_MINE'));
+    const temp = {
+      type: 'GetSignInfoByID',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().checkInfo.startTime,
+      to: getState().checkInfo.endTime,
+      'find_id': getState().login.infos.ID
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_CHECK_INFO_MINE', data.data));
+          } else {
+            dispatch(fetchError('GET_CHECK_INFO_MINE',
+                                `获取空闲时间失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_CHECK_INFO_MINE',
+                            `获取空闲时间失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_CHECK_INFO_MINE',
+                                `获取空闲时间失败: ${e}`)));
+  };
+};
+
+export const getCheckInfoAll = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_CHECK_INFO_ALL'));
+    const temp = {
+      type: 'GetSignInfo',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().checkSearch.startTime,
+      to: getState().checkSearch.endTime
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_CHECK_INFO_ALL', data.data));
+          } else {
+            dispatch(fetchError('GET_CHECK_INFO_ALL',
+                                `获取空闲时间失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_CHECK_INFO_ALL',
+                            `获取空闲时间失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_CHECK_INFO_ALL',
+                                `获取空闲时间失败: ${e}`)));
+  };
+};
+
+export const getFreeTimeByType = timeType => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_FREE_TIME_BY_TYPE'));
+    const temp = {
+      type: 'GetFreeTimeBTime_type',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'time_type': timeType
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_FREE_TIME_BY_TYPE', data.data));
+          } else {
+            dispatch(fetchError('GET_FREE_TIME_BY_TYPE',
+                                `获取空闲时间失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_FREE_TIME_BY_TYPE',
+                            `获取空闲时间失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_FREE_TIME_BY_TYPE',
+                                `获取空闲时间失败: ${e}`)));
+  };
+};
+
+export const getWorkTimeMine = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_WORKTIME_MINE'));
+    const temp = {
+      type: 'GetWorkInfo',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().workTimeMine.startTime,
+      to: getState().workTimeMine.endTime,
+      'find_id': getState().login.infos.ID
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_WORKTIME_MINE', data.data));
+          } else {
+            dispatch(fetchError('GET_WORKTIME_MINE',
+                                `获取排班表失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_WORKTIME_MINE',
+                            `获取排班表失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_WORKTIME_MINE',
+                                `获取排班表失败: ${e}`)));
+  };
+};
+
+export const getWorkTimeAll = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_WORKTIME_ALL'));
+    const temp = {
+      type: 'GetWorkInfo',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().workTimeAll.startTime,
+      to: getState().workTimeAll.endTime
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_WORKTIME_ALL', data.data));
+          } else {
+            dispatch(fetchError('GET_WORKTIME_ALL',
+                                `获取排班表失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_WORKTIME_ALL',
+                            `获取排班表失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_WORKTIME_ALL',
+                                `获取排班表失败: ${e}`)));
+  };
+};
+
+export const delDay = from => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('WORKTIME_DELETE_DAY'));
+    const temp = {
+      type: 'WorkTime_DeleteByDate_time',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(getWorkTimeAll());
+            dispatch(fetchSuccess('WORKTIME_DELETE_DAY'));
+          } else {
+            dispatch(fetchError('WORKTIME_DELETE_DAY',
+                                `删除排班失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('WORKTIME_DELETE_DAY',
+                            `删除排班失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('WORKTIME_DELETE_DAY',
+                                `删除排班失败: ${e}`)));
+  };
+};
+
+export const delWorkTime = id => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('WORKTIME_DELETE'));
+    const temp = {
+      type: 'WorkTime_DeleteByTime_id',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'time_id': id
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(getWorkTimeAll());
+            dispatch(fetchSuccess('WORKTIME_DELETE'));
+          } else {
+            dispatch(fetchError('WORKTIME_DELETE',
+                                `删除排班失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('WORKTIME_DELETE',
+                            `删除排班失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('WORKTIME_DELETE',
+                                `删除排班失败: ${e}`)));
+  };
+};
+
+export const workTimeInsert = worktime => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('WORKTIME_INSERT'));
+    const temp = {
+      type: 'WorkTime_Insert',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      worktime
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(getWorkTimeAll());
+            dispatch(fetchSuccess('WORKTIME_INSERT'));
+          } else {
+            dispatch(fetchError('WORKTIME_INSERT',
+                                `新增排班失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('WORKTIME_INSERT',
+                            `新增排班失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('WORKTIME_INSERT',
+                                `新增排班失败: ${e}`)));
+  };
+};
+
+export const saveFreeTime = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('SAVE_FREETIME'));
+    const snap = getState().freeTime;
+    let freetime = [];
+    for (let type in snap) {
+      if (snap[type]) {
+        freetime.push({
+          ID: getState().login.infos.ID,
+          name: getState().login.infos.name,
+          'time_type': type
+        });
+      }
+    }
+    const temp = {
+      type: 'FreeTime_Insert',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      freetime
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('SAVE_FREETIME', data.data));
+          } else {
+            dispatch(fetchError('SAVE_FREETIME',
+                                `保存空闲时间表失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('SAVE_FREETIME',
+                            `保存空闲时间表失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('SAVE_FREETIME',
+                                `保存空闲时间表失败: ${e}`)));
+  };
+};
+
+export const getFreeTime = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_FREETIME'));
+    const temp = {
+      type: 'GetFreeTimeByID',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'find_id': getState().login.infos.ID
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_FREETIME', data.data));
+          } else {
+            dispatch(fetchError('GET_FREETIME',
+                                `获取空闲时间表失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_FREETIME',
+                            `获取空闲时间表失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_FREETIME',
+                                `获取空闲时间表失败: ${e}`)));
+  };
+};
+
+export const getCheckInfo = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_CHECK_INFO'));
+    const temp = {
+      type: 'GetState',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      'find_id': getState().login.infos.ID
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_CHECK_INFO', data.data[0]));
+          } else {
+            dispatch(fetchError('GET_CHECK_INFO', `获取信息失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_CHECK_INFO', `获取信息失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_CHECK_INFO', `获取信息失败: ${e}`)));
+  };
+};
+
 export const managerDeleteDevice = inx => {
   return (dispatch, getState) => {
     dispatch(fetchStart('MANAGERDELETEDEVICE'));

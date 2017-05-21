@@ -47,5 +47,16 @@ export const sidebarData = [
       {name: '新增仪器', to: '/system/addDevice'},
       {name: '仪器信息管理', to: '/system/managerDevice'}
     ]
+  },
+  {
+    name: '助理中心',
+    level: {type: 'student', needs: ['管理权限', '一般权限']},
+    links: [
+      {name: '签到信息', to: 'system/checkInfo'},
+      {name: '签到查询', to: 'system/checkSearch'},
+      {name: '空闲时间表', to: 'system/freeTime'},
+      {name: '我的排班表', to: 'system/workTimeMine'},
+      {name: '每周排班表', to: 'system/workTimeAll'}
+    ]
   }
 ];

@@ -1,0 +1,18 @@
+#workTimeAllTable span.am-badge.am-round {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+#workTimeAllTable span.am-icon-minus {
+  cursor: pointer;
+  transition: 0.5s;
+}
+#workTimeAllTable span.am-icon-minus:hover {
+  color: orange;
+}
+#workTimeAllTable th, #workTimeAllTable td {
+  text-align: center;
+}
+#workTimeAllGrid {
+  position: relative;
+}

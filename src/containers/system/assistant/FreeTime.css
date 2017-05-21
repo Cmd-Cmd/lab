@@ -1,0 +1,7 @@
+#freeTimeTable th, #freeTimeTable td {
+  text-align: center;
+}
+#freeTimeTable .am-checkbox {
+  margin: 0;
+  display: inline-block;
+}

@@ -12,6 +12,7 @@ const managerUser = (state = initState, action) => {
   let nextState = Object.assign({}, state);
   switch (action.type) {
     case 'FETCH_GET_ALL_USERS_START':
+      nextState.allUsers = [];
       $('#ManagerUser')
         .append($('<div>')
         .addClass('loader')

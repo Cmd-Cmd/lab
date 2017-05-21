@@ -25,6 +25,11 @@ import managerArticle from './managerArticle';
 import addDevice from './addDevice';
 import managerDevice from './managerDevice';
 import deviceDetail from './deviceDetail';
+import checkInfo from './checkInfo';
+import checkSearch from './checkSearch';
+import freeTime from './freeTime';
+import workTimeAll from './workTimeAll';
+import workTimeMine from './workTimeMine';
 import reset from './reset';
 
 const reducer = combineReducers({
@@ -53,6 +58,11 @@ const reducer = combineReducers({
   addDevice,
   managerDevice,
   deviceDetail,
+  checkInfo,
+  checkSearch,
+  freeTime,
+  workTimeAll,
+  workTimeMine,
   reset
 });
 

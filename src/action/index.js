@@ -1,3 +1,61 @@
+export const changeCheckInfoTime = (time, type) => {
+  return {
+    type: 'CHANGE_CHECK_INFO_TIME',
+    payload: {
+      time,
+      type
+    }
+  };
+};
+
+export const checkSearchFilter = (val, key) => {
+  return {
+    type: 'CHECK_SEARCH_FILTER',
+    payload: {
+      val,
+      key
+    }
+  };
+};
+
+export const changeCheckSearchTime = (time, type) => {
+  return {
+    type: 'CHANGE_CHECK_SEARCH_TIME',
+    payload: {
+      time,
+      type
+    }
+  };
+};
+
+export const workTimeMineChange = payload => {
+  return {
+    type: 'WORKTIME_MINE_CHANGE',
+    payload
+  };
+};
+
+export const workTimeAllModalChange = payload => {
+  return {
+    type: 'WORKTIME_ALL_MODAL_CHANGE',
+    payload
+  };
+};
+
+export const workTimeAllChange = payload => {
+  return {
+    type: 'WORKTIME_ALL_CHANGE',
+    payload
+  };
+};
+
+export const freeTimeChange = payload => {
+  return {
+    type: 'FREE_TIME_CHANGE',
+    payload
+  };
+};
+
 export const deleteNewDeviceLoc = () => {
   return {
     type: 'DELETE_NEW_DEVICE_LOC'

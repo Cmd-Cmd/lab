@@ -33,6 +33,11 @@ import ManagerArticle from './containers/system/article/ManagerArticle';
 import AddDevice from './containers/system/device/AddDevice';
 import ManagerDevice from './containers/system/device/ManagerDevice';
 import DeviceDetail from './containers/system/device/DeviceDetail';
+import CheckInfo from './containers/system/assistant/CheckInfo';
+import FreeTime from './containers/system/assistant/FreeTime';
+import WorkTimeAll from './containers/system/assistant/WorkTimeAll';
+import WorkTimeMine from './containers/system/assistant/WorkTimeMine';
+import CheckSearch from './containers/system/assistant/CheckSearch';
 import Reset from './containers/Reset';
 import NotFound from './components/notFound';
 
@@ -87,14 +92,12 @@ class Routers extends Component {
             this.props.navEnter('系统');
           }}>
             <IndexRedirect to='/system/person'></IndexRedirect>
-            <Route path='/system/person' component={Person} onEnter={() => {
-              this.props.changeSystemActive(0);
-            }}></Route>
+            <Route path='/system/person' component={Person}
+                   onEnter={() => this.props.changeSystemActive(0)}></Route>
             <Route path='/system/changePassword' component={ChangePassword}
                    onEnter={() => this.props.changeSystemActive(0)}></Route>
-            <Route path='/system/newUser' component={NewUser} onEnter={() => {
-              this.props.changeSystemActive(1);
-            }}></Route>
+            <Route path='/system/newUser' component={NewUser}
+                  onEnter={() => this.props.changeSystemActive(1)}></Route>
             <Route path='/system/userInfoList' component={ManagerUser}
                    onEnter={() => this.props.changeSystemActive(1)}></Route>
             <Route path='/system/userRankList' component={ManagerRank}
@@ -123,7 +126,17 @@ class Routers extends Component {
                    onEnter={() => this.props.changeSystemActive(5)}></Route>
             <Route path='/system/deviceDetail' component={DeviceDetail}
                    onEnter={() => this.props.changeSystemActive(5)}></Route>
-          </Route>
+            <Route path='/system/checkInfo' component={CheckInfo}
+                   onEnter={() => this.props.changeSystemActive(6)}></Route>
+            <Route path='/system/checkSearch' component={CheckSearch}
+                   onEnter={() => this.props.changeSystemActive(6)}></Route>
+            <Route path='/system/freeTime' component={FreeTime}
+                   onEnter={() => this.props.changeSystemActive(6)}></Route>
+            <Route path='/system/workTimeAll' component={WorkTimeAll}
+                   onEnter={() => this.props.changeSystemActive(6)}></Route>
+            <Route path='/system/workTimeMine' component={WorkTimeMine}
+                   onEnter={() => this.props.changeSystemActive(6)}></Route>
+          </Route>ManagerAssistant
           <Route path='/reset' component={Reset} onEnter={() => {
             this.props.navEnter('重置');
           }}></Route>
