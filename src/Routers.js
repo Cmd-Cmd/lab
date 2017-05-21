@@ -51,7 +51,9 @@ class Routers extends Component {
           } else {
             this.props.token(cb, {
               id: localStorage.id,
-              pw: localStorage.token
+              pw: localStorage.token,
+              No: 'token',
+              str: 'token'
             });
           }
         }}>

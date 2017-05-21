@@ -1,17 +1,34 @@
 import React, {Component} from 'react';
-import {Button, Modal, ModalTrigger,
+import {Button, Modal, ModalTrigger, Image,
         Grid, Col, Input, Icon} from 'amazeui-react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import $ from 'jquery';
 
+import {imgNumRefresh} from '../../action';
 import {login} from '../../action/fetch';
 
-class LoginButton extends Component {
-  constructor(props) {
-    super(props);
+const CAPTCHA = 'http://bxw2359770225.my3w.com/CheckImage.aspx';
 
-    this.modal = (
+class LoginButton extends Component {
+  validate() {
+    var length = this.state.value.length;
+
+    if (length < 10 && length > 4) {
+      return 'success';
+    } else {
+      return 'error';
+    }
+  }
+
+  handleChange() {
+    this.setState({
+      value: this.refs.field.getValue()
+    });
+  }
+
+  render() {
+    const renderModal = (
       <Modal id='loginModal' title='登录' closeViaDimmer>
         <form id='loginForm' onSubmit={(e) => {
           e.preventDefault();
@@ -19,8 +36,6 @@ class LoginButton extends Component {
           $($('#loginForm').serializeArray()).each((inx, ele) => {
             form[ele.name] = ele.value;
           });
-          // TODO: 验证验证码
-          delete form.captcha;
           if (form.id.length + form.pw.length === 0) {
             return;
           }
@@ -39,11 +54,13 @@ class LoginButton extends Component {
                      name='pw' required />
             </Col>
             <Col sm={6} md={4}>
-              验证码
+              <Image src={`${CAPTCHA}?a=${this.props.imgNum}`}
+                     style={{width: '100%', height: '37px', cursor: 'pointer'}}
+                     onClick={() => this.props.imgNumRefresh()} responsive />
             </Col>
             <Col sm={6} md={8}>
               <Input placeholder='验证码' type='text' amStyle='secondary'
-                     name='captcha' />
+                     name='str' />
             </Col>
             <Col sm={12}>
               <Button amStyle='success' block type='submit'>登录</Button>
@@ -56,40 +73,28 @@ class LoginButton extends Component {
         </form>
       </Modal>
     );
-  }
 
-  validate() {
-    var length = this.state.value.length;
-
-    if (length < 10 && length > 4) {
-      return 'success';
-    } else {
-      return 'error';
-    }
-  }
-
-  handleChange() {
-    this.setState({
-      value: this.refs.field.getValue()
-    });
-  }
-
-  render() {
     return (
       <span>
-        <ModalTrigger modal={this.modal}>
-          <Button amStyle='success' className='btn-response'>登录</Button>
+        <ModalTrigger modal={renderModal}>
+          <Button amStyle='success' className='btn-response'
+                  onClick={() => this.props.imgNumRefresh()}>
+            登录
+          </Button>
         </ModalTrigger>
       </span>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({});
+const mapStateToProps = (state, ownProps) => ({
+  imgNum: state.login.imgNum
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    login: payload => dispatch(login(payload))
+    login: payload => dispatch(login(payload)),
+    imgNumRefresh: () => dispatch(imgNumRefresh())
   };
 };
 

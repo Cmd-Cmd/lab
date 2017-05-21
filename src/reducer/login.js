@@ -3,6 +3,7 @@ import $ from 'jquery';
 import hint from '../hint';
 
 const initState = {
+  imgNum: 0,
   logined: false,
   change: false,
   infos: {
@@ -37,6 +38,9 @@ const initState = {
 const login = (state = initState, action) => {
   let nextState = Object.assign({}, state);
   switch (action.type){
+    case 'IMGNUM_REFRESH':
+      nextState.imgNum++;
+      break;
     case 'FETCH_TOKEN_START':
     case 'FETCH_LOGIN_START':
       nextState.logined = false;
@@ -118,7 +122,10 @@ const login = (state = initState, action) => {
     case 'LOGOUT':
       localStorage.removeItem('id');
       localStorage.removeItem('token');
-      return initState;
+      const tempNum = nextState.imgNum;
+      nextState = Object.assign({}, initState);
+      nextState.imgNum = tempNum + 1;
+      break;
     default:
       return state;
   }

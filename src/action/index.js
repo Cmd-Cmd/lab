@@ -1,3 +1,9 @@
+export const imgNumRefresh = () => {
+  return {
+    type: 'IMGNUM_REFRESH'
+  };
+};
+
 export const changeCheckInfoTime = (time, type) => {
   return {
     type: 'CHANGE_CHECK_INFO_TIME',

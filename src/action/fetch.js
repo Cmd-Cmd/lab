@@ -1,6 +1,5 @@
-import {personChange} from './index';
-import {setDrugDetail, setMixDetail, setDeviceDetail,
-        resetArticle} from './index';
+import {personChange, imgNumRefresh, resetArticle,
+        setDrugDetail, setMixDetail, setDeviceDetail} from './index';
 
 const fetchStart = (op, payload = {}) => {
   return {
@@ -1616,13 +1615,28 @@ export const login = form => {
   return (dispatch, getState) => {
     dispatch(fetchStart('LOGIN', form));
     form.type = 'Login';
+    const cookies = document.cookie.split('; ');
+    for (let i = 0 ; i < cookies.length; i++) {
+      const keyVal = cookies[i].split('=');
+      if ('CheckCod_No' === keyVal[0]) {
+        form.No = keyVal[1];
+        break;
+      }
+    }
+    console.error('▲△▲此处代码需要删除△▲△');
+    form.No = form.No || '1111';
     fetchTemplete('LoginHandler', form).then(res => {
       if (res.ok) {
         res.json().then(data => {
           if (data.error === '0') {
             dispatch(fetchSuccess('LOGIN', data.data[0]));
           } else {
-            dispatch(fetchError('LOGIN', `登录失败: 用户不存在或密码错误`));
+            dispatch(imgNumRefresh());
+            if (data.error === '11') {
+              dispatch(fetchError('LOGIN', `验证码错误或失效`));
+            } else {
+              dispatch(fetchError('LOGIN', `登录失败: 用户不存在或密码错误`));
+            }
           }
         });
       } else {
