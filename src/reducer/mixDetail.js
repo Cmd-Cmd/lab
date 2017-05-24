@@ -3,7 +3,8 @@ import $ from 'jquery';
 import hint from '../hint';
 
 const initState = {
-  mix: '',
+  require: 0,
+  mix: '饱和氯化钙溶液',
   disableBtn: true,
   detail: {
     'drug_mix': '',
@@ -106,7 +107,9 @@ const mixDetail = (state = initState, action) => {
         nextState.struct.drug.push({
           drug: (action.payload[i])[drugName],
           num: action.payload[i].num,
-          standard: action.payload[i].standard
+          standard: action.payload[i].standard,
+          counting: action.payload[i].counting,
+          need: Number(action.payload[i].num * nextState.require)
         });
       }
       $('#mixStructGrid div.loader').remove();
@@ -165,6 +168,15 @@ const mixDetail = (state = initState, action) => {
         tempDel[mixAdd].splice(action.payload, 1);
       }
       nextState.struct = tempDel;
+      break;
+    case 'MIX_REQUIRE_CHANGE':
+      let tempReq = Number(action.payload.trim());
+      nextState.require = isNaN(tempReq) ? 0 : tempReq;
+      for (let i = 0; i < nextState.struct.drug.length; i++) {
+        let tempNeed = nextState.struct.drug[i].num;
+        tempNeed = Number(tempNeed) * nextState.require;
+        nextState.struct.drug[i].need = tempNeed;
+      }
       break;
     case 'FETCH_UPDATE_STRUCT_START':
       $('#mixStructGrid')

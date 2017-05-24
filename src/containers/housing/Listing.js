@@ -8,8 +8,13 @@ import {connect} from 'react-redux';
 
 import './Listing.css';
 import {listingPageTo} from '../../action';
+import {getListing} from '../../action/fetch';
 
 class Listing extends Component {
+  componentDidMount() {
+    this.props.getListing(this.props.english);
+  }
+
   render() {
     const searchForm = (
       <Popover placement='right' amSize='sm' amStyle='secondary'>
@@ -74,12 +79,12 @@ class Listing extends Component {
               const temp = this.props.english.toLowerCase();
               return (
                 <ScrollSpy key={inx}>
-                <li className='am-list-item-dated'>
-                    <Link to={`/${temp}/${ele.id}`}
-                            className='am-list-item-hd'>{ele.title}</Link>
-                    <span className='am-list-date'>{ele.date}</span>
-                </li>
-            </ScrollSpy>
+                  <li className='am-list-item-dated'>
+                      <Link to={`/${temp}/${ele.ArticleID}`}
+                              className='am-list-item-hd'>{ele.Title}</Link>
+                      <span className='am-list-date'>{ele.DateTime}</span>
+                  </li>
+                </ScrollSpy>
               );
             })}
         </ul>
@@ -125,7 +130,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changePage: (page) => dispatch(listingPageTo(page))
+    changePage: (page) => dispatch(listingPageTo(page)),
+    getListing: english => dispatch(getListing(english))
   };
 };
 

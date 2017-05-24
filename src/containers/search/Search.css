@@ -1,5 +1,7 @@
 #Search {
   background-color: #eee;
+  position: relative;
+  min-height: inherit;
 }
 #Search>.am-container {
   background-color: white;

@@ -4,3 +4,6 @@
 #Essay header p.am-article-meta {
   text-align: right;
 }
+#Essay .am-article-bd img {
+  display: inline;
+}

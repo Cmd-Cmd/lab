@@ -2,31 +2,12 @@ import $ from 'jquery';
 
 import hint from '../hint';
 
-const test2 = [
-  {id: '0', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '1', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '2', time: '12:00 - 13:30', room: 'B305', content: '生物实验'},
-  {id: '3', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '4', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '5', time: '12:00 - 13:30', room: 'B305', content: '生物实验'},
-  {id: '6', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '7', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '8', time: '12:00 - 13:30', room: 'B305', content: '生物实验'},
-  {id: '9', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '10', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '11', time: '12:00 - 13:30', room: 'B305', content: '生物实验'},
-  {id: '12', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '13', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '14', time: '12:00 - 13:30', room: 'B305', content: '生物实验'},
-  {id: '15', time: '8:00 - 9:30', room: 'B403', content: '化学实验'},
-  {id: '16', time: '9:00 - 10:30', room: 'B405', content: '生物实验'},
-  {id: '17', time: '12:00 - 13:30', room: 'B305', content: '生物实验'}
-];
+import {todayData} from './exampleData';
 
 const initState = {
   newsData: [],
   noticeData: [],
-  todayData: test2,
+  todayData,
   todayTime: 0
 };
 

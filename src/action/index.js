@@ -1,3 +1,10 @@
+export const changeSearchKeyword = payload => {
+  return {
+    type: 'CHANGE_SEARCH_KEYWORD',
+    payload
+  };
+};
+
 export const imgNumRefresh = () => {
   return {
     type: 'IMGNUM_REFRESH'
@@ -110,6 +117,54 @@ export const setDeviceDetail = payload => {
   };
 };
 
+export const resetArticleDetail = () => {
+  return {
+    type: 'RESET_ARTICLE_DETAIL'
+  };
+};
+
+export const changeArticleDetailText = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_TEXT',
+    payload
+  };
+};
+
+export const changeArticleDetailId = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_ID',
+    payload
+  };
+};
+
+export const changeArticleDetailHits = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_HITS',
+    payload
+  };
+};
+
+export const changeArticleDetailContent = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_CONTENT',
+    payload
+  };
+};
+
+export const changeArticleDetailTitle = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_TITILE',
+    payload
+  };
+};
+
+export const changeArticleDetailType = payload => {
+  return {
+    type: 'CHANGE_ARTICLE_DETAIL_TYPE',
+    payload
+  };
+};
+
 export const resetArticle = () => {
   return {
     type: 'RESET_ARTICLE'
@@ -158,6 +213,13 @@ export const changeArticleType = payload => {
   };
 };
 
+export const changeManagerArticleTitle = payload => {
+  return {
+    type: 'CHANGE_MANAGER_ARTICLE_TITLE',
+    payload
+  };
+};
+
 export const changeManagerArticleTime = (time, type) => {
   return {
     type: 'CHANGE_MANAGER_ARTICLE_TIME',
@@ -171,6 +233,13 @@ export const changeManagerArticleTime = (time, type) => {
 export const managerMixPageTo = payload => {
   return {
     type: 'MANAGER_MIX_PAGE_TO',
+    payload
+  };
+};
+
+export const mixRequireChange = payload => {
+  return {
+    type: 'MIX_REQUIRE_CHANGE',
     payload
   };
 };
@@ -340,12 +409,6 @@ export const enterListing = payload => {
   return {
     type: 'ENTER_LISTING',
     payload
-  };
-};
-
-export const enterSearch = () => {
-  return {
-    type: 'ENTER_SEARCH'
   };
 };
 

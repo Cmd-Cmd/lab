@@ -100,7 +100,7 @@ class ManagerDevice extends Component {
                         <Icon icon='edit'> 编辑</Icon>
                       </Button>
                       <ModalTrigger onConfirm={() => this.handleModal()} modal={
-                        <Modal type='confirm' title='删除药品'>
+                        <Modal type='confirm' title='删除设备'>
                           确定删除设备 {this.state.tempDeleteName} 吗？
                         </Modal>
                       }>

@@ -1,4 +1,4 @@
-import {todayData, todayData2} from './exampleData';
+import {todayData} from './exampleData';
 
 const initState = {
   data: todayData,
@@ -12,7 +12,7 @@ const tabling = (state = initState, action) => {
       nextState = initState;
       return nextState;
     case 'SET_TABLING_TIME':
-      nextState.data = todayData2;
+      nextState.data = todayData;
       nextState.time = action.payload;
       return nextState;
     default:

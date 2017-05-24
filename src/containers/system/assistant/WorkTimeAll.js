@@ -71,7 +71,10 @@ class WorkTimeAll extends Component {
       nextState.type = name;
       return nextState;
     });
-    this.props.getFreeTime(name);
+    let tempData = new Date(this.props.weekData.startTime);
+    const delta = parseInt(name[0], 10) - 1;
+    tempData.setTime(tempData.getTime() + 86400000 * delta);
+    this.props.getFreeTime(name, formatDate(tempData, '-'));
   }
 
   delDay(inx) {
@@ -214,7 +217,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getWorkTimeAll: () => dispatch(getWorkTimeAll()),
     weekChange: temp => dispatch(workTimeAllChange(temp)),
-    getFreeTime: type => dispatch(getFreeTimeByType(type)),
+    getFreeTime: (type, date) => dispatch(getFreeTimeByType(type, date)),
     modalChange: id => dispatch(workTimeAllModalChange(id)),
     workTimeInsert: worktime => dispatch(workTimeInsert(worktime)),
     delWorkTime: id => dispatch(delWorkTime(id)),

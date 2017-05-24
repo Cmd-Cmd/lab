@@ -3,8 +3,7 @@ import {Router, Route, hashHistory,
         IndexRoute, IndexRedirect} from 'react-router';
 import {connect} from 'react-redux';
 
-import {navChangeTo, enterListing, enterSearch,
-        changeSystemActive} from './action';
+import {navChangeTo, enterListing, changeSystemActive} from './action';
 import {token} from './action/fetch';
 
 import {getEssay} from './action/fetch';
@@ -30,6 +29,7 @@ import MixDetail from './containers/system/mix/MixDetail';
 import ManagerMix from './containers/system/mix/ManagerMix';
 import NewArticle from './containers/system/article/NewArticle';
 import ManagerArticle from './containers/system/article/ManagerArticle';
+import ArticleDetail from './containers/system/article/ArticleDetail';
 import AddDevice from './containers/system/device/AddDevice';
 import ManagerDevice from './containers/system/device/ManagerDevice';
 import DeviceDetail from './containers/system/device/DeviceDetail';
@@ -88,7 +88,6 @@ class Routers extends Component {
           </Route>
           <Route path='/search' component={Search} onEnter={() => {
             this.props.navEnter('搜索');
-            this.props.onSearch();
           }}></Route>
           <Route path='/system' component={System} onEnter={(ns, rp) => {
             this.props.navEnter('系统');
@@ -121,6 +120,8 @@ class Routers extends Component {
             <Route path='/system/newArticle' component={NewArticle}
                    onEnter={() => this.props.changeSystemActive(4)}></Route>
             <Route path='/system/managerArticle' component={ManagerArticle}
+                   onEnter={() => this.props.changeSystemActive(4)}></Route>
+            <Route path='/system/articleDetail' component={ArticleDetail}
                    onEnter={() => this.props.changeSystemActive(4)}></Route>
             <Route path='/system/addDevice' component={AddDevice}
                    onEnter={() => this.props.changeSystemActive(5)}></Route>
@@ -157,7 +158,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     navEnter: (text) => dispatch(navChangeTo(text)),
     onListing: (text) => dispatch(enterListing(text)),
     getEssay: (housing, id) => dispatch(getEssay(housing, id)),
-    onSearch: () => dispatch(enterSearch()),
     changeSystemActive: inx => dispatch(changeSystemActive(inx)),
     token: (cb, temp) => dispatch(token(cb, temp))
   };

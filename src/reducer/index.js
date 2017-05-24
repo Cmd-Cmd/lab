@@ -22,6 +22,7 @@ import mixDetail from './mixDetail';
 import managerMix from './managerMix';
 import newArticle from './newArticle';
 import managerArticle from './managerArticle';
+import articleDetail from './articleDetail';
 import addDevice from './addDevice';
 import managerDevice from './managerDevice';
 import deviceDetail from './deviceDetail';
@@ -55,6 +56,7 @@ const reducer = combineReducers({
   managerMix,
   newArticle,
   managerArticle,
+  articleDetail,
   addDevice,
   managerDevice,
   deviceDetail,

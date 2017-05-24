@@ -8,7 +8,7 @@ export const sidebarData = [
   },
   {
     name: '管理员中心',
-    level: {type: 'control', needs: ['管理权限']},
+    // level: {type: 'control', needs: ['管理权限']},
     links: [
       {name: '创建新用户', to: '/system/newUser'},
       {name: '用户信息管理', to: '/system/userInfoList'},
@@ -21,7 +21,7 @@ export const sidebarData = [
       {
         name: '新增药品',
         to: '/system/addDrug',
-        level: {type: 'drug', needs: ['管理权限']}
+        // level: {type: 'drug', needs: ['管理权限']}
       },
       {name: '药品信息管理', to: '/system/managerDrug'},
       {name: '药品出入库记录', to: '/system/drugInOut'}
@@ -50,7 +50,7 @@ export const sidebarData = [
   },
   {
     name: '助理中心',
-    level: {type: 'student', needs: ['管理权限', '一般权限']},
+    // level: {type: 'student', needs: ['管理权限', '一般权限']},
     links: [
       {name: '签到信息', to: 'system/checkInfo'},
       {name: '签到查询', to: 'system/checkSearch'},

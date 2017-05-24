@@ -4,12 +4,16 @@ import {Breadcrumb, Container, UCheck, Article, Pagination,
         Form, Input, Button, Sticky, ScrollSpy, Icon} from 'amazeui-react';
 import {connect} from 'react-redux';
 
+import hint from '../../hint';
+
 import './Search.css';
-import {searchPageTo} from '../../action';
+import {searchPageTo, changeSearchKeyword} from '../../action';
+import {searchListing} from '../../action/fetch';
 
 class Search extends Component {
   componentWillMount() {
     window.scrollTo(0, 0);
+    this.props.searchListing('');
   }
 
   render() {
@@ -35,13 +39,27 @@ class Search extends Component {
           <Sticky>
             <Form id='searchInput' onSubmit={(e) => {
               e.preventDefault();
-              alert('TODO');
+              let temp = 0;
+              temp += document.getElementById('newsCheck').checked ? 1 : 0;
+              temp += document.getElementById('noticeCheck').checked ? 2 : 0;
+              if (temp === 0) {
+                hint('请选择搜索类别');
+              } else {
+                this.props.searchListing(temp === 3 ? '' : temp);
+              }
             }}>
-              <Input btnAfter={<Button amStyle='secondary'>搜索</Button>}
-                     placeholder='搜索...' amStyle='secondary'></Input>
-               <UCheck label='今日' amStyle='success' inline defaultChecked />
-               <UCheck label='新闻' amStyle='success' inline defaultChecked />
-               <UCheck label='公告' amStyle='success' inline defaultChecked />
+              <Input btnAfter={
+                                <Button type='submit' amStyle='secondary'>
+                                  搜索
+                                </Button>
+                              }
+                     placeholder='搜索...' amStyle='secondary'
+                     onChange={e => this.props.changeKeyword(e.target.value)}
+                     value={this.props.keyword} />
+               <UCheck label='新闻' amStyle='success' id='newsCheck'
+                       inline defaultChecked />
+               <UCheck label='公告' amStyle='success' id='noticeCheck'
+                       inline defaultChecked />
             </Form>
           </Sticky>
           <ul className='am-list'>
@@ -50,17 +68,18 @@ class Search extends Component {
                 return (
                   <ScrollSpy key={inx}>
                     <li>
-                        <Link to={`/${ele.type}/${ele.id}`}
+                        <Link to={`/${ele.type === '1' ? 'news' : 'notice'}/` +
+                                  ele.ArticleID}
                               className='am-list-item-hd'>
-                          <Article title={ele.title}>
+                          <Article title={ele.Title}>
                             <div className='am-article-bd'>
                               <p className='am-margin-0 am-article-lead'>
-                                {ele.lead}
+                                {ele.infor}
                               </p>
                             </div>
                           </Article>
                         </Link>
-                        <span className='am-list-date'>{ele.date}</span>
+                        <span className='am-list-date'>{ele.DateTime}</span>
                     </li>
                   </ScrollSpy>
                 );
@@ -102,13 +121,16 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data: state.search.result,
     pageNow: state.search.pageNow,
-    pageAll: state.search.pageAll
+    pageAll: state.search.pageAll,
+    keyword: state.search.keyword
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changePage: (page) => dispatch(searchPageTo(page))
+    changePage: (page) => dispatch(searchPageTo(page)),
+    changeKeyword: word => dispatch(changeSearchKeyword(word)),
+    searchListing: type => dispatch(searchListing(type))
   };
 };
 

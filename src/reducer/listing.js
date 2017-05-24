@@ -1,57 +1,61 @@
-import {newsData, noticeData} from './exampleData';
+import $ from 'jquery';
+
+import hint from '../hint';
 
 const initState = {
   name: '',
   english: '',
   pageNow: 0,
   pageAll: 0,
+  dataAll: [],
   listData: []
 };
 
 const listing = (state = initState, action) => {
-  let tempData = [];
   let nextState = Object.assign({}, state);
-  nextState.listData = [];
   switch (action.type) {
     case 'ENTER_LISTING':
-      nextState.pageNow = 0;
       nextState.english = action.payload;
       switch (action.payload) {
         case 'NEWS':
           nextState.name = '新闻';
-          tempData = newsData;
           break;
         case 'NOTICE':
           nextState.name = '公告';
-          tempData = noticeData;
-          break;
-        case 'TODAY':
-          nextState.name = '今日';
           break;
         default:
           return state;
       }
-      nextState.pageAll = Math.floor((tempData.length - 1) / 15);
+      break;
+    case 'FETCH_GET_LISTING_START':
+      $('#Listing')
+        .append($('<div>')
+        .addClass('loader')
+        .append($('<div>')
+        .addClass('loader-inner square-spin')
+        .append($('<div>'))));
+      nextState.pageNow = 0;
+      nextState.pageAll = 0;
+      nextState.dataAll = [];
+      break;
+    case 'FETCH_GET_LISTING_SUCCESS':
+      nextState.dataAll = action.payload;
+      $('#Listing div.loader').remove();
+      break;
+    case 'FETCH_GET_LISTING_ERROR':
+      hint(action.payload);
+      $('#Listing div.loader').remove();
       break;
     case 'CHANGE_PAGE':
       nextState.pageNow = action.payload;
-      switch (state.english) {
-        case 'NEWS':
-          tempData = newsData;
-          break;
-        case 'NOTICE':
-          tempData = noticeData;
-          break;
-        default:
-          return state;
-      }
       break;
     default:
       return state;
   }
+  nextState.listData = [];
   let temp = nextState.pageNow * 15;
-  for (let i = temp; i < temp + 15 && i < tempData.length; i++) {
-    nextState.listData.push(tempData[i]);
+  for (let i = temp; i < temp + 15 && i < nextState.dataAll.length; i++) {
+    nextState.listData.push(nextState.dataAll[i]);
   }
   return nextState;
 };

@@ -1,4 +1,4 @@
-import {personChange, imgNumRefresh, resetArticle,
+import {personChange, imgNumRefresh, resetArticle, resetArticleDetail,
         setDrugDetail, setMixDetail, setDeviceDetail} from './index';
 
 const fetchStart = (op, payload = {}) => {
@@ -31,6 +31,215 @@ const fetchTemplete = (type, form) => {
     },
     body: 'json=' + escape(JSON.stringify(form))
   });
+};
+
+export const searchListing = type => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('SEARCH_LISTING'));
+    const temp = {
+      type: 'GetNewsLate',
+      num: 9999999,
+      'news_type': type
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('SEARCH_LISTING', data.data));
+          } else {
+            dispatch(fetchError('SEARCH_LISTING',
+                                `获取工时失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('SEARCH_LISTING',
+                            `获取工时失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('SEARCH_LISTING',
+                                `获取工时失败: ${e}`)));
+  };
+};
+
+export const getListing = english => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_LISTING'));
+    const temp = {
+      type: 'GetNewsLate',
+      num: 9999999,
+      'news_type': english === 'NEWS' ? 1 : 2
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_LISTING', data.data));
+          } else {
+            dispatch(fetchError('GET_LISTING',
+                                `获取工时失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_LISTING',
+                            `获取工时失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_LISTING',
+                                `获取工时失败: ${e}`)));
+  };
+};
+
+export const getManHours = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_MAN_HOURS'));
+    const hourMonth = getState().checkInfo.hourMonth;
+    const tempMonth = parseInt(hourMonth.split('-')[1], 10) - 1;
+    let lastDay = new Date();
+    lastDay.setYear(parseInt(hourMonth.split('-')[0], 10));
+    lastDay.setMonth(tempMonth);
+    let tempDay = 31;
+    do {
+      lastDay.setDate(tempDay--);
+    } while (lastDay.getMonth() !== tempMonth);
+    const temp = {
+      type: 'GetWorkInfoByID',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().checkInfo.hourMonth + '-1',
+      to: getState().checkInfo.hourMonth + '-' + lastDay.getDate(),
+      'find_id': getState().login.infos.ID
+    };
+    fetchTemplete('StudentHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_MAN_HOURS', data.data));
+          } else {
+            dispatch(fetchError('GET_MAN_HOURS',
+                                `获取工时失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_MAN_HOURS',
+                            `获取工时失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_MAN_HOURS',
+                                `获取工时失败: ${e}`)));
+  };
+};
+
+export const getArticle = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_ARTICLE'));
+    const temp = {
+      type: 'GetNewsFromTo',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      from: getState().managerArticle.startTime,
+      to: getState().managerArticle.endTime,
+      Title: getState().managerArticle.title.trim()
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_ARTICLE', data.data));
+          } else {
+            dispatch(fetchError('GET_ARTICLE', `获取文章失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_ARTICLE', `获取文章失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_ARTICLE', `获取文章失败: ${e}`)));
+  };
+};
+
+export const updateArticle = editor => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('UPDATE_ARTICLE'));
+    const temp = {
+      type: 'Add_UpdateNews',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ArticleID: getState().articleDetail.id,
+      Title: getState().articleDetail.title,
+      'Content_1': getState().articleDetail.content,
+      Hits: getState().articleDetail.hits,
+      'Member_Name': getState().login.infos.name,
+      'news_type': getState().articleDetail.type === 'news' ? 1 : 2,
+      infor: getState().articleDetail.text
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('UPDATE_ARTICLE'));
+            dispatch(resetArticleDetail());
+            dispatch(getArticle());
+            editor.$txt.html('');
+          } else {
+            dispatch(fetchError('UPDATE_ARTICLE',
+                                `更新文章失败: ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('UPDATE_ARTICLE',
+                            `更新文章失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('UPDATE_ARTICLE', `更新文章失败: ${e}`)));
+  };
+};
+
+export const getArticleDetail = (id, editor) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('GET_ARTICLE_DETAIL', {id}));
+    const temp = {
+      type: 'GetNewsDetail',
+      ArticleID: id
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('GET_ARTICLE_DETAIL', data.data[0]));
+            const contentName = 'Content_1';
+            editor.$txt.html(data.data[0][contentName]);
+          } else {
+            dispatch(fetchError('GET_ARTICLE_DETAIL',
+                                `文章获取失败: ERR-${data.error}`));
+            dispatch(resetArticleDetail());
+          }
+        });
+      } else {
+        dispatch(fetchError('GET_ARTICLE_DETAIL',
+                            `文章获取失败: RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('GET_ARTICLE_DETAIL', `文章获取失败: ${e}`)));
+  };
+};
+
+export const deleteArticle = id => {
+  return (dispatch, getState) => {
+    dispatch(fetchStart('DELETE_ARTICLE'));
+    const temp = {
+      type: 'DelNews',
+      id: getState().login.infos.ID,
+      pw: getState().login.infos.token,
+      ArticleID: id
+    };
+    fetchTemplete('NewsHandler', temp).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          if (data.error === '0') {
+            dispatch(fetchSuccess('DELETE_ARTICLE', id));
+          } else {
+            dispatch(fetchError('DELETE_ARTICLE', `删除文章失败 ERR-${data.error}`));
+          }
+        });
+      } else {
+        dispatch(fetchError('DELETE_ARTICLE', `删除文章失败 RES-${res.status}`));
+      }
+    }, e => dispatch(fetchError('DELETE_ARTICLE', `删除文章失败: ${e}`)));
+  };
 };
 
 export const getCheckInfoMine = () => {
@@ -92,14 +301,15 @@ export const getCheckInfoAll = () => {
   };
 };
 
-export const getFreeTimeByType = timeType => {
+export const getFreeTimeByType = (timeType, from) => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GET_FREE_TIME_BY_TYPE'));
     const temp = {
-      type: 'GetFreeTimeBTime_type',
+      type: 'GetFreeTimeBTime_typeOnly',
       id: getState().login.infos.ID,
       pw: getState().login.infos.token,
-      'time_type': timeType
+      'time_type': timeType,
+      from
     };
     fetchTemplete('StudentHandler', temp).then(res => {
       if (res.ok) {
@@ -124,7 +334,7 @@ export const getWorkTimeMine = () => {
   return (dispatch, getState) => {
     dispatch(fetchStart('GET_WORKTIME_MINE'));
     const temp = {
-      type: 'GetWorkInfo',
+      type: 'GetWorkInfoByID',
       id: getState().login.infos.ID,
       pw: getState().login.infos.token,
       from: getState().workTimeMine.startTime,

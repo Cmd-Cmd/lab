@@ -8,7 +8,7 @@ import $ from 'jquery';
 import hint from '../../../hint';
 import './MixDetail.css';
 
-import {setMixDetail, mixDetailChange,
+import {setMixDetail, mixDetailChange, mixRequireChange,
         addToStruct, deleteStruct} from '../../../action';
 import {getMixDetail, getMixStruct, mixUpdate, deleteMix,
         mixDrugSearch, mixMixSearch, updateStruct} from '../../../action/fetch';
@@ -163,14 +163,23 @@ class MixDetail extends Component {
               <Tabs.Item eventKey='struct' title='配方信息'>
                 <Grid id='mixStructGrid'>
                   <Col sm={12}>
+                    <Input type='number' value={this.props.require}
+                           onChange={e => this.props.reqChange(e.target.value)}
+                           addonBefore={
+                             `输入需求量(${this.props.detail.standard})`
+                           } />
+                  </Col>
+                  <Col sm={12}>
                     <form id='mixStructForm' onSubmit={e=>this.updateStruct(e)}>
                       <Table responsive compact>
                         <thead>
                           <tr>
                             <th>药品名/试剂名</th>
-                            <th>数量</th>
+                            <th>单位数量</th>
                             <th>单位</th>
                             <th style={{width: '60px'}}>删除</th>
+                            <th>需求量</th>
+                            <th>库存量</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -190,6 +199,12 @@ class MixDetail extends Component {
                                               className='am-text-danger' />
                                       </Button>
                                     </td>
+                                    <td className={ele.need <= ele.counting ?
+                                                   'am-text-primary' :
+                                                   'am-text-danger'} >
+                                      {ele.need} {ele.standard}
+                                    </td>
+                                    <td>{ele.counting}</td>
                                   </tr>
                                 );
                               })
@@ -328,7 +343,8 @@ const mapStateToProps = (state, ownProps) => ({
   detail: state.mixDetail.detail,
   struct: state.mixDetail.struct,
   drugSearch: state.mixDetail.drugSearch,
-  mixSearch: state.mixDetail.mixSearch
+  mixSearch: state.mixDetail.mixSearch,
+  require: state.mixDetail.require
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -343,7 +359,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     mixMixSearch: mix => dispatch(mixMixSearch(mix)),
     addToStruct: (type, temp) => dispatch(addToStruct(type, temp)),
     deleteStruct: (type, temp) => dispatch(deleteStruct(type, temp)),
-    updateStruct: () => dispatch(updateStruct())
+    updateStruct: () => dispatch(updateStruct()),
+    reqChange: val => dispatch(mixRequireChange(val))
   };
 };
 
